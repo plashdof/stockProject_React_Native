@@ -10,12 +10,12 @@ import Chartpage from './src/pages/Chartpage';
 import Balancepage from './src/pages/Balancepage';
 import Popolpage from './src/pages/Popolpage';
 import Searchpage from './src/pages/Searchpage';
-import Signinpage from './src/pages/login/Signinpage';
 import Signuppage from './src/pages/login/Signuppage';
 import Firstpage from './src/pages/login/Firstpage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
 
 
 function App(){
@@ -97,15 +97,13 @@ function App(){
 
           <Stack.Screen
             name="Firstpage"
-            component={(navigation) => <Firstpage setLogin={setisLogin} navigation={navigation} />}
-          />
-          <Stack.Screen
-            name="Signinpage"
-            component={(navigation) => <Signinpage navigation={navigation}/>}
-          />
+            options={{headerShown: false}}>
+            {props => <Firstpage {...props} setLogin={setisLogin}/>}
+          </Stack.Screen>
           <Stack.Screen
             name="Signuppage"
             component={() => <Signuppage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />
 
         </Stack.Navigator>

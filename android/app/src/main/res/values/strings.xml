@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">quant investment</string>
+    <string name="kakao_app_key">afa60511f7e9e0a546ac71e1f0098149</string>
 </resources>
