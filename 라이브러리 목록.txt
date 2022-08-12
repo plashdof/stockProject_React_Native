@@ -1,0 +1,15 @@
+
+npm install @react-native-seoul/kakao-login   //  카카오 로그인 API
+
+npm i @react-native-async-storage/async-storage   //  AsyncStorage 사용. 패키지가바뀜
+
+
+// navigation 라이브러리
+
+npm i @react-navigation/native
+
+npm i @react-navigation/native-stack
+
+npm i react-native-screens react-native-safe-area-context
+
+npm install @react-navigation/bottom-tabs
