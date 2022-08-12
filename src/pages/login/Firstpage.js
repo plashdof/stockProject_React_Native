@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import{StyleSheet, View,TouchableOpacity, Image} from 'react-native';
+import{StyleSheet, View,TouchableOpacity, Image, ActivityIndicator} from 'react-native';
 
 import {getProfile, login} from '@react-native-seoul/kakao-login'
 import kakaoIcon from '../../assets/img/kakaoIcon.png'
 import chartIcon from '../../assets/img/loginChart.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 /* 로그인 성공시 반환값 */
 
 // accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt, scopes
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
 
 function Firstpage({navigation, setLogin}){
     const [token, setToken] = useState(-1);
+    const [isLoginLoading, setisLoginLoading] = useState(false);
 
     async function SignwithKakao(){
         try{
@@ -46,7 +49,7 @@ function Firstpage({navigation, setLogin}){
     useEffect(()=>{
 
         if(token !== -1){
-            console.log(token)
+            setisLoginLoading(true);
 
             fetch('http://haniumproject.com/auth',{
                 method: 'POST',
@@ -76,13 +79,45 @@ function Firstpage({navigation, setLogin}){
     },[token])
 
 
-    return(
+    return(<>
+        {isLoginLoading ? 
+        <>
+            <View style={styles.loginBox}>
+                <Image source={chartIcon} style={styles.ChartIcon} />
+                <TouchableOpacity title="로그인"  style={styles.KakaoIcon}>
+                    <Image source={kakaoIcon} style={styles.KakaoIcon}/>
+                </TouchableOpacity>
+            </View> 
+
+            <View style={{
+                position:'absolute', 
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: 0
+                }}>
+            </View>
+
+            <ActivityIndicator style={{
+                position:'absolute',
+                top: 50,
+                bottom: 50,
+                right: 50,
+                left: 50
+                }} size='large'>
+            </ActivityIndicator>
+        </>
+        :
+
         <View style={styles.loginBox}>
             <Image source={chartIcon} style={styles.ChartIcon} />
             <TouchableOpacity title="로그인" onPress={()=>SignwithKakao()} style={styles.KakaoIcon}>
                 <Image source={kakaoIcon} />
             </TouchableOpacity>
         </View>
+        }
+    </>
     )
 }
 

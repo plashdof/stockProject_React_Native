@@ -34,28 +34,28 @@ function App(){
               let iconName;
 
               if (route.name === 'Homepage'){
-                iconName = focused ? require('./src/assets/img/home_dark.png') :
-                require('./src/assets/img/home.png')
+                iconName = focused ? require('./src/assets/Tabimg/home_dark.png') :
+                require('./src/assets/Tabimg/home.png')
               }
 
               if (route.name === 'Chartpage'){
-                iconName = focused ? require('./src/assets/img/chart_dark.png') :
-                require('./src/assets/img/chart.png')
+                iconName = focused ? require('./src/assets/Tabimg/chart_dark.png') :
+                require('./src/assets/Tabimg/chart.png')
               }
 
               if (route.name === 'Balancepage'){
-                iconName = focused ? require('./src/assets/img/money_dark.png') :
-                require('./src/assets/img/money.png')
+                iconName = focused ? require('./src/assets/Tabimg/money_dark.png') :
+                require('./src/assets/Tabimg/money.png')
               }
 
               if (route.name === 'Popolpage'){
-                iconName = focused ? require('./src/assets/img/popol_dark.png') :
-                require('./src/assets/img/popol.png')
+                iconName = focused ? require('./src/assets/Tabimg/popol_dark.png') :
+                require('./src/assets/Tabimg/popol.png')
               }
 
               if (route.name === 'Searchpage'){
-                iconName = focused ? require('./src/assets/img/search_dark.png') :
-                require('./src/assets/img/search.png')
+                iconName = focused ? require('./src/assets/Tabimg/search_dark.png') :
+                require('./src/assets/Tabimg/search.png')
               }
 
               return <Image source={iconName} style={{width: 25, height: 25}} />
