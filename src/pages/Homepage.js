@@ -1,11 +1,15 @@
 import * as React from 'react';
-import{Text,View} from 'react-native';
+import{Text,View, TouchableOpacity} from 'react-native';
+import Header from '../component/layout/Header';
 
-function Homepage(){
+
+function Homepage({setLogin}){
+    
+
     return(
-        <View>
-            <Text>Home page</Text>
-        </View>
+        <>
+            <Header setLogin={setLogin} pageName={'홈'}/>
+        </>
     )
 }
 

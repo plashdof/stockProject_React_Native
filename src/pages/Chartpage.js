@@ -1,11 +1,14 @@
 import * as React from 'react';
 import{Text,View} from 'react-native';
+import Header from '../component/layout/Header';
 
-function Chartpage(){
+function Chartpage({setLogin}){
     return(
-        <View>
-            <Text>Chart page</Text>
-        </View>
+        <>  
+            <Header setLogin={setLogin} pageName={'차트'}/>
+
+   
+        </>
     )
 }
 

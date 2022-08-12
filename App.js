@@ -63,32 +63,32 @@ function App(){
         >
           <Tab.Screen
             name="Homepage"
-            component={Homepage}
-            options={{title: '홈페이지'}}
+            component={() => <Homepage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />
 
           <Tab.Screen
             name="Chartpage"
-            component={Chartpage}
-            options={{title: '차트'}}
+            component={() => <Chartpage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />
 
           <Tab.Screen
             name="Balancepage"
-            component={Balancepage}
-            options={{title: '잔고조회'}}
+            component={() => <Balancepage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />
 
           <Tab.Screen
             name="Popolpage"
-            component={Popolpage}
-            options={{title: '포트폴리오'}}
+            component={() => <Popolpage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />
 
           <Tab.Screen
             name="Searchpage"
-            component={Searchpage}
-            options={{title: '검색' }}
+            component={() => <Searchpage setLogin={setisLogin}/>}
+            options={{headerShown: false}}
           />        
 
         </Tab.Navigator>

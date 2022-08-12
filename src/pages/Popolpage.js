@@ -1,11 +1,14 @@
 import * as React from 'react';
 import{Text,View} from 'react-native';
+import Header from '../component/layout/Header';
 
-function Popolpage(){
+function Popolpage({setLogin}){
     return(
-        <View>
-            <Text>Popol page</Text>
-        </View>
+        <>  
+            <Header setLogin={setLogin} pageName={'포트폴리오'}/>
+
+   
+        </>
     )
 }
 

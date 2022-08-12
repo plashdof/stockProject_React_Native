@@ -1,11 +1,14 @@
 import * as React from 'react';
 import{Text,View} from 'react-native';
+import Header from '../component/layout/Header';
 
-function Searchpage(){
+function Searchpage({setLogin}){
     return(
-        <View>
-            <Text>Search page</Text>
-        </View>
+        <>  
+            <Header setLogin={setLogin} pageName={'검색'}/>
+
+   
+        </>
     )
 }
 
