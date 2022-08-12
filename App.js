@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useState} from 'react';
@@ -12,6 +11,10 @@ import Popolpage from './src/pages/Popolpage';
 import Searchpage from './src/pages/Searchpage';
 import Signuppage from './src/pages/login/Signuppage';
 import Firstpage from './src/pages/login/Firstpage';
+
+
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -64,31 +67,31 @@ function App(){
           <Tab.Screen
             name="Homepage"
             component={() => <Homepage setLogin={setisLogin}/>}
-            options={{headerShown: false}}
-          />
+            options={{headerShown: false, tabBarLabel: '홈'}}
+          /> 
 
           <Tab.Screen
             name="Chartpage"
             component={() => <Chartpage setLogin={setisLogin}/>}
-            options={{headerShown: false}}
+            options={{headerShown: false, tabBarLabel: '차트'}}
           />
 
           <Tab.Screen
             name="Balancepage"
             component={() => <Balancepage setLogin={setisLogin}/>}
-            options={{headerShown: false}}
+            options={{headerShown: false, tabBarLabel: '잔고확인'}}
           />
 
           <Tab.Screen
             name="Popolpage"
             component={() => <Popolpage setLogin={setisLogin}/>}
-            options={{headerShown: false}}
+            options={{headerShown: false, tabBarLabel: '포트폴리오'}}
           />
 
           <Tab.Screen
             name="Searchpage"
             component={() => <Searchpage setLogin={setisLogin}/>}
-            options={{headerShown: false}}
+            options={{headerShown: false, tabBarLabel: '검색'}}
           />        
 
         </Tab.Navigator>
