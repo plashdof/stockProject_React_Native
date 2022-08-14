@@ -12,6 +12,8 @@ const styles=StyleSheet.create({
         alignItems: 'flex-end',
         backgroundColor: 'white',
         height: 60,
+        borderBottomColor: '#BABABA',
+        borderWidth: 1
     },
 
     PageName:{
