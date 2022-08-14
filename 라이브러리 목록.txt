@@ -13,3 +13,11 @@ npm i @react-navigation/native-stack
 npm i react-native-screens react-native-safe-area-context
 
 npm install @react-navigation/bottom-tabs
+
+
+// chart 라이브러리
+// https://github.com/wuxudong/react-native-charts-wrapper
+// https://github.com/wuxudong/react-native-charts-wrapper/blob/master/docs.md
+// https://github.com/wuxudong/react-native-charts-wrapper/tree/master/Example/app
+
+npm i react-native-charts-wrapper --save
