@@ -2,6 +2,7 @@ import DrawChart from "./DrawChart";
 import {useState, useEffect} from 'react';
 import {View, ScrollView, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import * as React from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const styles=StyleSheet.create({
@@ -23,13 +24,10 @@ const styles=StyleSheet.create({
         elevation: 5,  
     },
 
-
     HomeChart:{
         flex: 5,
         marginBottom: 100
     }
-
-    
 })
 
 const btnstyles=StyleSheet.create({
@@ -65,9 +63,9 @@ function HomeChart(){
     
 
 
-    let [chartDataObj1, setchartDataObj1] = useState(null); // 코스피 차트 데이터 객체
-    let [chartDataObj2, setchartDataObj2] = useState(null); // 코스닥 차트 데이터 객체
-    let [chartDataObj3, setchartDataObj3] = useState(null); // 원/환율 차트 데이터 객체
+    let [chartDataObj1, setchartDataObj1] = useState(null);  // 코스피 차트 데이터 객체
+    let [chartDataObj2, setchartDataObj2] = useState(null);  // 코스닥 차트 데이터 객체
+    let [chartDataObj3, setchartDataObj3] = useState(null);  // 원/환율 차트 데이터 객체
 
     let [endfetchdata1, setEndfetchdata1] = useState(false);    // 흐름제어를 위한 fetch 종료상태 State
     let [endfetchdata2, setEndfetchdata2] = useState(false);
@@ -78,98 +76,19 @@ function HomeChart(){
     let [clickedwon, setclickedwon] = useState(false);          // 원/환율 버튼 상태
 
     let [chartName, setchartName] = useState('kospi');          // 차트 상단 주식명
-    let [chartPrice,setchartPrice] = useState('100');           // 차트 상단 주식가격
+
+    let [chartPrice1,setchartPrice1] = useState();           // Kospi 주식가격
+    let [chartPrice2,setchartPrice2] = useState();           // Kosdak 주식가격
+    let [chartPrice3,setchartPrice3] = useState();           // 원/환율 주식가격
+    let [chartPrice, setchartPrice] = useState(); // 출력용 주식가격
 
 
-
-    
-
-
-    /* 서버에서 오는 데이터를 parsing 
-
-        1. 차트 그리기용 데이터 형태
-
-            [{shadowH: num, shadowL: num, open: num, close: num}, ... ]  
-            shadowH == High,  shadowL == Low
-    
-        2. 차트 하단에 표시할 날짜데이터 형태
-
-            ['2022-07-01', '2022-07-02', ...]
-            string 배열로 parsing
-    
-    */
+    let [rising1, setRising1] = useState(true);        // Kospi 상승지표
+    let [rising2, setRising2] = useState(true);        // Kosdak 상승지표 
+    let [rising3, setRising3] = useState(true);        // 원/환율 상승지표
+    let [rising, setRising] = useState(true);  // 출력용 상승지표
 
 
-
-    function parsing1(){       // 코스피 
-
-        let date = Object.keys(chartData1.Open)
-        let open = Object.values(chartData1.Open)
-        let shadowH = Object.values(chartData1.High)
-        let shadowL = Object.values(chartData1.Low)
-        let close = Object.values(chartData1.Close)
-        
-        let data = []
-        for(let i = 0; i < date.length; i++){       
-            data.push({
-                shadowH: Number(shadowH[i]),
-                shadowL: Number(shadowL[i]),
-                open: Number(open[i]),
-                close: Number(close[i])
-            })
-        }
-        console.log(data)
-        console.log(date)
-        setchartDataObj1({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
-
-    }
-
-    function parsing2(){    // 코스닥 
-        
-        let date = Object.keys(chartData2.Open)
-        let open = Object.values(chartData2.Open)
-        let shadowH = Object.values(chartData2.High)
-        let shadowL = Object.values(chartData2.Low)
-        let close = Object.values(chartData2.Close)
-        
-        let data = []
-        for(let i = 0; i < date.length; i++){
-            data.push({
-                shadowH: Number(shadowH[i]),
-                shadowL: Number(shadowL[i]),
-                open: Number(open[i]),
-                close: Number(close[i])
-            })
-        }
-        console.log(data)
-        console.log(date)
-        setchartDataObj2({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
-
-    }
-
-    function parsing3(){    // 원/환율 
-        
-        let date = Object.keys(chartData3.Open)
-        let open = Object.values(chartData3.Open)
-        let shadowH = Object.values(chartData3.High)
-        let shadowL = Object.values(chartData3.Low)
-        let close = Object.values(chartData3.Close)
-        
-        let data = []
-        for(let i = 0; i < date.length; i++){
-            data.push({
-                shadowH: Number(shadowH[i]),
-                shadowL: Number(shadowL[i]),
-                open: Number(open[i]),
-                close: Number(close[i])
-            })
-        }
-
-        console.log(data)
-        console.log(date)
-        setchartDataObj3({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
-
-    }
 
 
 
@@ -177,17 +96,20 @@ function HomeChart(){
     /*   차트데이터 fetching. 
 
         fetching 종료시, fetch 상태 State를 true로 바꿔줌
-        chartData State 객체에 저장    
+        chartData State 객체에 저장   
+        
+         자동완성데이터 fetching
     
     */
 
     useEffect(()=>{
+
         // 코스피 
         fetch('http://54.215.210.171:8000/getPrice',{
             method: 'POST',
             body: JSON.stringify({
                 'code': 'KS11',
-                'start': '2022-06-25'
+                'start': '2022-06-25',
             }),
             headers:{
                 'Content-Type': 'application/json'
@@ -197,9 +119,17 @@ function HomeChart(){
             setEndfetchdata1(true);
             setchartData1(data);
             console.log(data);
-            
-        }) 
 
+            /* 최초렌더링시, 가장먼저보이는 Kospi의 가격과 가격색깔을 적용 */
+
+            const Closetemp = Object.values(data.Close);     
+            const Opentemp = Object.values(data.Open);
+            const size = Closetemp.length - 1
+            setchartPrice(Closetemp[size])
+            if(Opentemp[size] > Closetemp[size]){
+                setRising(false);
+            }
+        })
 
         // 코스닥
         fetch('http://54.215.210.171:8000/getPrice',{
@@ -235,10 +165,21 @@ function HomeChart(){
             setchartData3(data);
             console.log(data);
         }) 
+
+
+        // 자동완성 데이터 저장
+        fetch(`http://54.215.210.171:8000/getNameToCode`)
+        .then((response) => response.json())
+        .then((data) => {
+            
+            AsyncStorage.setItem('StockNames', JSON.stringify(Object.keys(data))); //전체 종목명 배열
+            AsyncStorage.setItem('StockCodes', JSON.stringify(Object.values(data))); //전체 코드 배열
+            setLoading(false);
+        });
+
     },[])
 
 
-    
 
     // chartData 가 변경되었을때 랜더링, 
     // fetch가 정상종료된 경우일때만 parsing 함수 실행
@@ -246,24 +187,132 @@ function HomeChart(){
 
     useEffect(()=>{
         if(endfetchdata1){
-            console.log(chartData1)
+            
             parsing1();
         }
     },[chartData1])
 
     useEffect(()=>{
         if(endfetchdata2){
-            console.log(chartData2)
+            
             parsing2();
         }
     },[chartData2])
 
     useEffect(()=>{
         if(endfetchdata3){
-            console.log(chartData3)
+            
             parsing3();
         }
     },[chartData3])
+    
+
+    
+
+
+    /* 서버에서 오는 데이터를 parsing 
+
+        1. 차트 그리기용 데이터 형태
+
+            [{shadowH: num, shadowL: num, open: num, close: num}, ... ]  
+            shadowH == High,  shadowL == Low
+    
+        2. 차트 하단에 표시할 날짜데이터 형태
+
+            ['2022-07-01', '2022-07-02', ...]
+            string 배열로 parsing
+    
+    */
+
+
+
+    function parsing1(){       // 코스피 데이터 parsing
+
+        let date = Object.keys(chartData1.Open)
+        let open = Object.values(chartData1.Open)
+        let shadowH = Object.values(chartData1.High)
+        let shadowL = Object.values(chartData1.Low)
+        let close = Object.values(chartData1.Close)
+
+        let size = date.length;
+        
+        let data = []
+        for(let i = 0; i < size; i++){       
+            data.push({
+                shadowH: Number(shadowH[i]),
+                shadowL: Number(shadowL[i]),
+                open: Number(open[i]),
+                close: Number(close[i])
+            })
+        }
+        
+        setchartPrice1(close[size - 1])         // close의 마지막 원소를 현재가격으로 출력
+        if(open[size - 1] > close[size - 1]){   // 종가가 시가보다 낮은경우, 파란색으로
+            setRising1(false);
+        }
+
+        setchartDataObj1({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
+
+    }
+
+    function parsing2(){    // 코스닥 데이터 parsing
+        
+        let date = Object.keys(chartData2.Open)
+        let open = Object.values(chartData2.Open)
+        let shadowH = Object.values(chartData2.High)
+        let shadowL = Object.values(chartData2.Low)
+        let close = Object.values(chartData2.Close)
+
+        let size = date.length;
+        
+        let data = []
+        for(let i = 0; i < size; i++){
+            data.push({
+                shadowH: Number(shadowH[i]),
+                shadowL: Number(shadowL[i]),
+                open: Number(open[i]),
+                close: Number(close[i])
+            })
+        }
+        
+        setchartPrice2(close[size - 1])         // close의 마지막 원소를 현재가격으로 출력
+        if(open[size - 1] > close[size - 1]){   // 종가가 시가보다 낮은경우, 파란색으로
+            setRising2(false);
+        }
+
+        setchartDataObj2({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
+
+    }
+
+    function parsing3(){    // 원/환율 데이터 parsing
+        
+        let date = Object.keys(chartData3.Open)
+        let open = Object.values(chartData3.Open)
+        let shadowH = Object.values(chartData3.High)
+        let shadowL = Object.values(chartData3.Low)
+        let close = Object.values(chartData3.Close)
+
+        let size = date.length;
+        
+        let data = []
+        for(let i = 0; i < size; i++){
+            data.push({
+                shadowH: Number(shadowH[i]),
+                shadowL: Number(shadowL[i]),
+                open: Number(open[i]),
+                close: Number(close[i])
+            })
+        }
+
+        
+        setchartPrice3(close[size - 1])         // close의 마지막 원소를 현재가격으로 출력
+        if(open[size - 1] > close[size - 1]){   // 종가가 시가보다 낮은경우, 파란색으로
+            setRising3(false);
+        }
+
+        setchartDataObj3({data, date});         //  parsing 종료시, Obj 에 data, date로 구분하여 담음
+
+    }
 
 
 
@@ -272,27 +321,33 @@ function HomeChart(){
 
 
     function ClickKospi(){
+        
         setclickedKospi(true);
         setclickedKosdak(false);
         setclickedwon(false);
         setchartName('kospi');
-        setchartPrice(100);
+        setchartPrice(chartPrice1);
+        setRising(rising1);
     }
 
     function ClickKosdak(){
+
         setclickedKosdak(true);
         setclickedKospi(false);
         setclickedwon(false);
         setchartName('kosdak');
-        setchartPrice(100);
+        setchartPrice(chartPrice2);
+        setRising(rising2);
     }
 
     function ClickWon(){
+        
         setclickedwon(true);
         setclickedKospi(false);
         setclickedKosdak(false);
         setchartName('원/환율');
-        setchartPrice(100);
+        setchartPrice(chartPrice3);
+        setRising(rising3);
     }
 
 
@@ -340,7 +395,7 @@ function HomeChart(){
         <View style={[styles.HomeChartBox, styles.elevation]}>
             <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
                 <Text style={{fontWeight:'bold', fontSize: 20, color: 'black'}}> {chartName} </Text>
-                <Text> {chartPrice} </Text>
+                {chartPrice && <Text style={{ fontSize: 20, color: rising ? 'red' : 'blue'}}> {chartPrice} </Text>}
             </View>
 
             <View style={styles.HomeChart}>
