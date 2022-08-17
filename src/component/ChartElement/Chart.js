@@ -1,18 +1,11 @@
-// import DrawChart from './DrawChart';
 import {useState, useEffect} from 'react';
 import * as React from 'react';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text, TouchableOpacity} from 'react-native';
+import DayChart from './DayChart';
+import MonthChart from './MonthChart';
 
-// const Container = styled.View`
-//   height: 300px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: beige;
-// `;
 const ChartInfoContainer = styled.View`
   height: 50px;
   display: flex;
@@ -30,7 +23,7 @@ const ChartName = styled.Text`
   font-weight: bold;
 `;
 const ChartPrice = styled.Text`
-  font-size: 28px;
+  font-size: 25px;
   font-weight: bold;
   margin-left: 10px;
 `;
@@ -58,18 +51,49 @@ const ChartContainer = styled.View`
 `;
 
 function Chart() {
+  const [chartType, setChartType] = useState('month');
+  const [totalStock, setTotalStock] = useState([]);
+  const [stockNames, setStockNames] = useState();
+  const [stockCodes, setStockCodes] = useState();
+
+  const [selectedStock, setSelectedStock] = useState(['삼성전자', '005930']);
+  useEffect(() => {
+    AsyncStorage.getItem('StockNames', (err, result) => {
+      setStockNames(JSON.parse(result));
+    });
+    AsyncStorage.getItem('StockCodes', (err, result) => {
+      setStockCodes(JSON.parse(result));
+    });
+  }, []);
+
+  //종목명, 코드 가겨오기
+  //indexOf로 이름,코드 연결
+
+  function handleChartType(e) {
+    setChartType(e);
+  }
+
+  const selectChartType = {
+    day: <DayChart />,
+    month: <MonthChart />,
+    // day: <DayChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />,
+    // month: (
+    //   <MonthChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />
+    // ),
+  };
+
   return (
     <>
       <ChartInfoContainer>
         <ChartDetailContainer>
-          <ChartName>삼성전자</ChartName>
+          <ChartName>{selectedStock[0]}</ChartName>
           <ChartPrice>59,500</ChartPrice>
         </ChartDetailContainer>
         <BtnContainer>
-          <SelectBtn>
+          <SelectBtn onPress={() => handleChartType('month')}>
             <SelectBtnTxt>월</SelectBtnTxt>
           </SelectBtn>
-          <SelectBtn>
+          <SelectBtn onPress={() => handleChartType('day')}>
             <Text>일</Text>
           </SelectBtn>
           <TouchableOpacity>
@@ -77,7 +101,7 @@ function Chart() {
           </TouchableOpacity>
         </BtnContainer>
       </ChartInfoContainer>
-      <ChartContainer></ChartContainer>
+      <ChartContainer>{selectChartType[chartType]}</ChartContainer>
     </>
   );
 }
