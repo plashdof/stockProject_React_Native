@@ -1,14 +1,5 @@
 import * as React from 'react';
-import {
-  Button,
-  Image,
-  ImageBackground,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 const Container = styled.View`
   height: 100px;
