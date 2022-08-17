@@ -21,7 +21,7 @@ const styles=StyleSheet.create({
 
     elevation:{
         shadowColor: '#52006A',  
-        elevation: 5,  
+        elevation: 3,  
     },
 
     HomeChart:{

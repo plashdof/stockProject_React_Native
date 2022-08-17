@@ -32,6 +32,7 @@ function App(){
       {isLogin ? (
         <Tab.Navigator
           screenOptions={({route}) => ({
+            tabBarHideOnKeyboard: true,
             tabBarIcon: ({focused, color, size}) =>{
               let iconName;
 
@@ -64,7 +65,10 @@ function App(){
 
             }
 
+            
+
           })}
+          
         >
           <Tab.Screen
             name="Homepage"

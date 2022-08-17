@@ -19,7 +19,7 @@ const styles=StyleSheet.create({
     },
     elevation:{
         shadowColor: '#52006A',  
-        elevation: 20, 
+        elevation: 3, 
     },
     EnjoySearchRow:{
         flex: 1,
