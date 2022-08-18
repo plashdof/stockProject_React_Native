@@ -3,8 +3,10 @@ import {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Chart from './Chart';
 
 const Container = styled.View`
+  padding: 30px 0 30px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,7 +56,7 @@ function ChartSearch() {
   const [stockNames, setStockNames] = useState();
   const [stockCodes, setStockCodes] = useState();
   const [result, setResult] = useState([]); //검색된 키워드를 포함하는 종목 배열(자동완성 리스트)
-
+  const [selectedStock, setSelectedStock] = useState('삼성전자'); //선택된 종목
   useEffect(() => {
     AsyncStorage.getItem('StockNames', (err, result) => {
       setStockNames(JSON.parse(result));
@@ -75,52 +77,66 @@ function ChartSearch() {
     }
   }, [keyword]);
 
+  function selectStock(e) {
+    setKeyword('');
+    setSelectedStock(e);
+  }
   return (
-    <Container>
-      <SearchBar>
-        <SearchIcon source={require('./img/searchIcon.png')} />
-        <InputBox
-          placeholder="종목명을 입력하세요."
-          value={keyword}
-          onChangeText={setKeyword}></InputBox>
-        <TouchableOpacity onPress={() => setKeyword('')}>
-          <DeleteBtn source={require('./img/close.png')} />
-        </TouchableOpacity>
-      </SearchBar>
+    <>
+      <Container style={{position: 'relative', zIndex: 2}}>
+        <SearchBar>
+          <SearchIcon source={require('./img/searchIcon.png')} />
+          <InputBox
+            placeholder="종목명을 입력하세요."
+            value={keyword}
+            onChangeText={setKeyword}></InputBox>
+          <TouchableOpacity onPress={() => setKeyword('')}>
+            <DeleteBtn source={require('./img/close.png')} />
+          </TouchableOpacity>
+        </SearchBar>
 
-      {result.length ? (
-        <View
-          style={{
-            width: 340,
-            height: result.length * 52,
-            backgroundColor: '#f2f2f2',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
+        {result.length ? (
+          <View
+            style={{
+              width: 340,
+              height: result.length * 52,
+              backgroundColor: '#f2f2f2',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.2,
+              shadowRadius: 1.41,
 
-            elevation: 2,
-          }}>
-          {result.map(stock => {
-            return (
-              <ResultBtn key={stock} onPress={() => {}}>
-                <Text style={{color: 'black', marginLeft: 32, marginTop: 5}}>
-                  {stock}
-                </Text>
-                <Text style={{color: '#9c9c9c', fontSize: 13, marginLeft: 32}}>
-                  {stockCodes[stockNames.indexOf(stock)]}
-                </Text>
-              </ResultBtn>
-            );
-          })}
-        </View>
-      ) : (
-        <></>
-      )}
-    </Container>
+              elevation: 2,
+            }}>
+            {result.map(stock => {
+              return (
+                <ResultBtn
+                  key={stock}
+                  onPress={() => {
+                    selectStock(stock);
+                  }}>
+                  <Text style={{color: 'black', marginLeft: 32, marginTop: 5}}>
+                    {stock}
+                  </Text>
+                  <Text
+                    style={{color: '#9c9c9c', fontSize: 13, marginLeft: 32}}>
+                    {stockCodes[stockNames.indexOf(stock)]}
+                  </Text>
+                </ResultBtn>
+              );
+            })}
+          </View>
+        ) : (
+          <></>
+        )}
+      </Container>
+      <View style={{position: 'absolute', top: 170, zIndex: 1}}>
+        <Chart props={selectedStock} />
+      </View>
+    </>
   );
 }
 export default ChartSearch;

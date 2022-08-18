@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import * as React from 'react';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,23 +15,24 @@ const ChartInfoContainer = styled.View`
 const ChartDetailContainer = styled.View`
   width: 300px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  margin-left: 20px;
 `;
 const ChartName = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  color: black;
 `;
 const ChartPrice = styled.Text`
-  font-size: 25px;
+  font-size: 16px;
   font-weight: bold;
-  margin-left: 10px;
 `;
 const BtnContainer = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
+  padding-top: 15px;
 `;
 const SelectBtn = styled.TouchableOpacity`
   padding: 9px;
@@ -50,32 +51,99 @@ const ChartContainer = styled.View`
   background-color: beige;
 `;
 
-function Chart() {
+function Chart(props) {
   const [chartType, setChartType] = useState('month');
-  const [totalStock, setTotalStock] = useState([]);
-
-  const [selectedStock, setSelectedStock] = useState(['삼성전자', '005930']);
-
-  //indexOf로 이름,코드 연결
+  const [chartDataObj1, setchartDataObj1] = useState(null);
+  const [chartLoading, setChartLoading] = useState(true);
+  const [previewLoading, setPreviewLoading] = useState(true);
+  const selectedStock = props.props;
 
   function handleChartType(e) {
     setChartType(e);
   }
 
   const selectChartType = {
-    day: <DayChart />,
-    month: <MonthChart />,
+    day: <DayChart props={chartDataObj1} />,
+    month: <MonthChart props={chartDataObj1} />,
     // day: <DayChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />,
     // month: (
     //   <MonthChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />
     // ),
   };
 
+  const interval = useRef(null);
+  const chartData = () => {
+    //차트 데이터 받아오기
+    // fetch("http://54.215.210.171:8000/getPrice", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     code: stockRef.current[0],
+    //     start: "2022-06-27",
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     setchartData1(data);
+    //      setChartLoading(false);
+    //   });
+    // fetch("http://54.215.210.171:8000/getPreview", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     code: [stockRef.current[0]],
+    //   }),
+    //   headers: {
+    //     "Content-Type": "./application.json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setSelectedCodePrice(data);
+    //     setPreviewLoading(false);
+    //   });
+    console.log('차트데이터받아옴');
+  };
+
+  useEffect(() => {
+    chartData();
+    interval.current = setInterval(chartData, 10000);
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [selectedStock]);
+
+  /*차트 그리기*/
+
+  let [chartData1, setchartData1] = useState({
+    Open: {keys: 'values'},
+    High: {keys: 'values'},
+    Low: {keys: 'values'},
+    Close: {keys: 'values'},
+  });
+
+  function parsing1() {
+    setchartDataObj1({
+      date: Object.keys(chartData1.Open),
+      open: Object.values(chartData1.Open),
+      high: Object.values(chartData1.High),
+      low: Object.values(chartData1.Low),
+      close: Object.values(chartData1.Close),
+    });
+  }
+
+  useEffect(() => {
+    parsing1();
+  }, [chartData1]);
+
   return (
     <>
       <ChartInfoContainer>
         <ChartDetailContainer>
-          <ChartName>{selectedStock[0]}</ChartName>
+          <ChartName>{selectedStock}</ChartName>
           <ChartPrice>59,500</ChartPrice>
         </ChartDetailContainer>
         <BtnContainer>

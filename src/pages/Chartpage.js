@@ -22,7 +22,6 @@ function Chartpage({setLogin}) {
         }}>
         <Header setLogin={setLogin} pageName={'차트'} />
         <ChartSearch contentContainerStyle={{flex: 1}} />
-        <Chart contentContainerStyle={{flex: 1}} />
       </ScrollView>
     </>
   );
