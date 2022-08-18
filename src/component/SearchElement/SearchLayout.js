@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SearchBar from './SearchBar';
-import {View, Text, TouchableOpacity, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image, ActivityIndicator, TouchableWithoutFeedback} from 'react-native';
 
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,7 @@ const styles=StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 50,
+        zIndex: 0
 
     },
     searchStockname:{
@@ -32,15 +33,15 @@ const styles=StyleSheet.create({
     }
 })
 
-function SearchLayout(){
+function SearchLayout({gotoChart}){
 
-    let [searchresultStockList, setSearchresultStockList] = useState([]);
-    let [searchresultPriceList, setSearchresultPriceList] = useState(['123', '123', '354', '504', '4564']);
-    let [tostr, setTostr] = useState(['삼성전자', '한화투자증권']);
-    let [priceisLoading, setpriceisLoading] = useState(false);
-    let [afterFirstFetch, setafterFirstFetch] = useState(false);
+    let [searchresultStockList, setSearchresultStockList] = useState([]);       //  주식이름 리스트
+    let [searchresultPriceList, setSearchresultPriceList] = useState([]);       //  주식가격 리스트
+    let [tostr, setTostr] = useState([]);                                       //  즐겨찾기 목록 데이터
+    let [priceisLoading, setpriceisLoading] = useState(false);                  
+    let [afterFirstFetch, setafterFirstFetch] = useState(false);                   
 
-    let [uuid, setUuid] = useState();
+    let [uuid, setUuid] = useState(-1);
 
 
     AsyncStorage.getItem('uuid', (err,result)=>{
@@ -48,26 +49,36 @@ function SearchLayout(){
     })
     
 
+    // 서버로부터 FavList 받아오기. tostr에 저장
     useEffect(()=>{
-        fetch(`http://haniumproject.com/getUserAccount`,{
-            method: 'POST',
-            headers:{
-                'Content-Type' : 'application/json',
-                'uuid' : uuid
-            }
-        })
-        .then( response => response.json())
-        .then( data => {
-            console.log(data)
-            setTostr(data.favlist.split(","));
-            console.log('즐겨찾기 불러오기 완료');
-            setafterFirstFetch(true);
-        });
-    },[])
+        if(uuid !== -1){
+
+            fetch(`http://haniumproject.com/getUserAccount`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'uuid' : uuid
+                }
+            })
+            .then( response => response.json())
+            .then( data => {
+                console.log(data)
+                setTostr(data.favlist.split(","));
+                console.log('즐겨찾기 불러오기 완료');
+                setafterFirstFetch(true);
+                setTemp(true);
+            });
+
+        }
+        
+    },[uuid])
 
 
+
+    //  서버에 검색리스트 보내서, 가격리스트 받아오기. searchresultPriceList에 저장
     useEffect(()=>{
-        setpriceisLoading(true)
+        
+        setpriceisLoading(true);
 
         fetch('http://54.215.210.171:8000/getPreview',{
             method: 'POST',
@@ -86,6 +97,9 @@ function SearchLayout(){
     },[searchresultStockList])
 
 
+
+    //  즐겨찾기 목록 변동시 (별버튼 클릭), 변경목록 서버에 POST
+
     useEffect(()=>{
 
         if(afterFirstFetch){
@@ -101,7 +115,7 @@ function SearchLayout(){
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                console.log(data);                      //  code : 1 반환시 성공
                 console.log("즐겨찾기 변경 완료");
             });
         }
@@ -109,6 +123,8 @@ function SearchLayout(){
 
     },[tostr]);
 
+
+    // 주식이름이 즐겨찾기목록에 있는지 검사 
 
     function InEnjoyList(item){
 
@@ -121,6 +137,9 @@ function SearchLayout(){
         return false;
     }
 
+
+    //  즐겨찾기 버튼 눌렀을때, tostr 변경 (추가, 제거)
+
     function EnjoyClick(item){
         if(!tostr.includes(item)){
             setTostr([item, ...tostr])
@@ -130,18 +149,27 @@ function SearchLayout(){
         }
     }
 
-    useEffect(()=>{
+    // 검색리스트 클릭시, 해당 주식의 차트페이지로 이동
+    
+    function PressStockList(item){
+        gotoChart();
+    }
 
-    },[tostr])
+    
+    
 
     return(
         <View>
             <SearchBar setSearchResult={setSearchresultStockList}/>
             
+
             {   searchresultStockList.map((item, idx)=>{
                 return(
-                    <TouchableOpacity style={styles.searchStocklist}>
+                    <TouchableOpacity style={styles.searchStocklist} onPress={()=>{PressStockList(item)}}>
+
+                        
                         <Text style={styles.searchStockname}>{item}</Text>
+                        
                         <View style={{flexDirection:'row'}}>
 
                             {
@@ -164,11 +192,16 @@ function SearchLayout(){
                             }
                             
                         </View>
+                        
+                    
                     </TouchableOpacity>
                 )
             })
 
             }
+
+            
+            
         
         </View>
     )
