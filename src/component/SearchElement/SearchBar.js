@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {View, TouchableOpacity, Text, TextInput,StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, TextInput,StyleSheet, Dimensions} from 'react-native';
 import {useEffect, useState} from 'react';
 
 
@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'center',
+      borderRadius: 10,
+      elevation: 10
     },
 
     inputbox: {
@@ -30,26 +32,35 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     autobox:{
-        
+        position: 'absolute',
+        top: 53,
+        width: Dimensions.get('window').width  ,
+        zIndex: 1,
+        backgroundColor: 'white',
+        elevation: 10
     },
     autoboxrow:{
         backgroundColor: 'white',
         height: 50,
+        width: 300
         
     },
     autoboxtext:{
         fontSize: 15,
         marginLeft: 20,
-        
+        marginTop: 10
     }
   })
 
-function SearchBar({setSearchresult}){
+function SearchBar({setSearchResult}){
 
     let [autocompleteData, setAutocompleteData] = useState([]);
     let [autocompleteResult, setautocompleteResult] = useState([]);
     let [autoboxTemp, setautoboxTemp] = useState();
     let [inputValue, setInputValue] = useState();
+
+    let [printData, setPrintData] = useState(false);
+
 
     AsyncStorage.getItem('StockNames', (err, result)=>{
         setAutocompleteData(JSON.parse(result));
@@ -57,6 +68,7 @@ function SearchBar({setSearchresult}){
 
 
     function inputChange(e){
+        console.log(e);
         setautoboxTemp(true);
         setInputValue(e);
         let data = e;
@@ -74,18 +86,34 @@ function SearchBar({setSearchresult}){
         }
 
         setautocompleteResult(filterdata);
+
+    }
+
+    function onKeyPress(e){
+        if(e.key=="Enter"){
+            console.log('ddd')
+        }
     }
 
     function deleteHandler(){
         setInputValue();
+        setautoboxTemp(false);
+        setSearchResult([]);
     }
 
-    async function stockClicked(data){
+    function stockClicked(data){
         console.log(data);
-        const done = await inputChange(data)
-
-        setSearchresult(autocompleteResult);
+        setPrintData(true);
+        inputChange(data);
     }
+
+    useEffect(()=>{
+        if(printData){
+            setSearchResult(autocompleteResult);
+            setautoboxTemp(false);
+            setPrintData(false);
+        }
+    },[autocompleteResult])
     
 
 
@@ -100,6 +128,7 @@ function SearchBar({setSearchresult}){
                         style={styles.inputbox}
                         placeholder='종목명을 입력하세요'
                         onChangeText={newText=>inputChange(newText)}
+                        onSubmitEditing={()=>{stockClicked(inputValue)}}
                         value={inputValue}
                     />
 
@@ -116,7 +145,7 @@ function SearchBar({setSearchresult}){
             <View style={styles.autobox}>
                 {autoboxTemp && autocompleteResult.map((data) =>{
                     return(
-                        <TouchableOpacity style={styles.autoboxrow} onPress={(data)=>stockClicked(data.target.value)}>
+                        <TouchableOpacity style={styles.autoboxrow} onPress={()=>{stockClicked(data)}}>
                             <Text style={styles.autoboxtext}>{data}</Text>
                         </TouchableOpacity>
                     )
