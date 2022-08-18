@@ -53,20 +53,9 @@ const ChartContainer = styled.View`
 function Chart() {
   const [chartType, setChartType] = useState('month');
   const [totalStock, setTotalStock] = useState([]);
-  const [stockNames, setStockNames] = useState();
-  const [stockCodes, setStockCodes] = useState();
 
   const [selectedStock, setSelectedStock] = useState(['삼성전자', '005930']);
-  useEffect(() => {
-    AsyncStorage.getItem('StockNames', (err, result) => {
-      setStockNames(JSON.parse(result));
-    });
-    AsyncStorage.getItem('StockCodes', (err, result) => {
-      setStockCodes(JSON.parse(result));
-    });
-  }, []);
 
-  //종목명, 코드 가겨오기
   //indexOf로 이름,코드 연결
 
   function handleChartType(e) {
