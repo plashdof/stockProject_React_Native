@@ -56,7 +56,16 @@ function Chart(props) {
   const [chartDataObj1, setchartDataObj1] = useState(null);
   const [chartLoading, setChartLoading] = useState(true);
   const [previewLoading, setPreviewLoading] = useState(true);
+  const [tostr, settostr] = useState([]); //즐겨찾기 목록
+  const [afterFirstFetch, setafterFirstFetch] = useState(false);
+
   const selectedStock = props.props;
+
+  let [uuid, Setuuid] = useState(-1);
+
+  AsyncStorage.getItem('uuid', (err, result) => {
+    Setuuid(result);
+  });
 
   function handleChartType(e) {
     setChartType(e);
@@ -70,6 +79,51 @@ function Chart(props) {
     //   <MonthChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />
     // ),
   };
+
+  /* 즐겨찾기 */
+  //유저의 즐겨찾기 목록 가져오기
+  useEffect(() => {
+    fetch(`http://haniumproject.com/getUserAccount`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        uuid: uuid,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        settostr(data.favlist.split(','));
+        setafterFirstFetch(true);
+      });
+  }, []);
+
+  //tostr 서버에 전송?
+  useEffect(() => {
+    if (afterFirstFetch) {
+      fetch(`http://haniumproject.com/setUserFavList`, {
+        method: 'POST',
+        body: JSON.stringify({
+          target: tostr.toString(),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          uuid: uuid,
+        },
+      }).then(response => response.json());
+    }
+  }, [tostr]);
+
+  //즐겨찾기 버튼 클릭시
+  function EnjoySearchHandler(e) {
+    if (!tostr.includes(e)) {
+      settostr([e, ...tostr]);
+    } else {
+      settostr(tostr.filter(x => x !== e));
+    }
+
+    console.log(tostr);
+  }
 
   const interval = useRef(null);
   const chartData = () => {
@@ -153,8 +207,12 @@ function Chart(props) {
           <SelectBtn onPress={() => handleChartType('day')}>
             <Text>일</Text>
           </SelectBtn>
-          <TouchableOpacity>
-            <FavBtn source={require('./img/emptyStar.png')} />
+          <TouchableOpacity onPress={() => EnjoySearchHandler(selectedStock)}>
+            {tostr.includes(selectedStock) ? (
+              <FavBtn source={require('./img/filledStar.png')} />
+            ) : (
+              <FavBtn source={require('./img/emptyStar.png')} />
+            )}
           </TouchableOpacity>
         </BtnContainer>
       </ChartInfoContainer>

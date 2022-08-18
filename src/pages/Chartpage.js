@@ -6,12 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChartSearch from '../component/ChartElement/ChartSearch';
 import Chart from '../component/ChartElement/Chart';
 function Chartpage({setLogin}) {
-  let [uuid, Setuuid] = useState(-1);
-
-  AsyncStorage.getItem('uuid', (err, result) => {
-    Setuuid(result);
-  });
-
   return (
     <>
       <ScrollView

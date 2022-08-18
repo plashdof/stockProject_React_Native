@@ -32,14 +32,9 @@ const InputBox = styled.TextInput`
   width: 280px;
 `;
 const DeleteBtn = styled.Image`
-  width: 20px;
-  height: 20px;
-  margin: 11px 10px 0 5px;
-`;
-const ResultBox = styled.View`
-  position: absolute;
-  height: 400px;
-  background-color: tomato;
+  width: 18px;
+  height: 18px;
+  margin: 12px 10px 0 5px;
 `;
 const ResultBtn = styled.TouchableOpacity`
   height: 52px;
