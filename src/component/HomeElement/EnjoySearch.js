@@ -50,7 +50,6 @@ function EnjoyChart(){
         if(uuid !== -1){
             
             console.log(uuid);
-            setTostr(['삼성전자', '삼성전자우', 'LG에너지솔루션'])
             fetch('http://haniumproject.com/getUserAccount',{
                 method: 'POST',
                 headers:{

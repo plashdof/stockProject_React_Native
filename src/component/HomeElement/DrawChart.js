@@ -17,7 +17,10 @@ function DrawChart({props}){
         setChartdata(props.data);
     },[])
 
+
+
     
+
 
     /* 데이터 라이브러리에 적용 */
     // 컴포넌트 명세서 : https://github.com/wuxudong/react-native-charts-wrapper/blob/master/docs.md
