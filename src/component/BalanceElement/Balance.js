@@ -5,6 +5,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {DataTable} from 'react-native-paper';
 
 function Balance() {
+  const [loading, setLoading] = useState(true);
   const [totalAssets, setTotalAssets] = useState('');
   const [manageAssets, setManageAssets] = useState('');
   const [rateOfReturn, setRateOfReturn] = useState([]);
@@ -28,70 +29,73 @@ function Balance() {
         setManageAssets(data.eval + ' / ' + data.sumofprch);
         setRateOfReturn(parseFloat(data.assticdcrt) * 100);
         setCurAccount(data.curaccount);
+        setLoading(false);
       });
-    // setTotalAssets(dd.total);
-    // setManageAssets(dd.eval + ' / ' + dd.sumofprch);
-    // setRateOfReturn(parseFloat(dd.assticdcrt) * 100);
-    // setCurAccount(dd.curaccount);
-  }, []);
+  });
   return (
     <>
-      <DataTable style={styles.container}>
-        <View
-          style={{
-            height: 20,
-            borderBottomWidth: 1,
-          }}></View>
-        <DataTable.Row>
-          <DataTable.Cell>총자산(원)</DataTable.Cell>
-          <DataTable.Cell>{totalAssets}</DataTable.Cell>
-        </DataTable.Row>
+      {loading ? (
+        <>
+          <DataTable style={styles.container}>
+            <View
+              style={{
+                height: 20,
+                borderBottomWidth: 1,
+              }}></View>
+            <DataTable.Row>
+              <DataTable.Cell>총자산(원)</DataTable.Cell>
+              <DataTable.Cell>{totalAssets}</DataTable.Cell>
+            </DataTable.Row>
 
-        <DataTable.Row>
-          <DataTable.Cell>운용중인 자산(원)</DataTable.Cell>
-          <DataTable.Cell>{manageAssets}</DataTable.Cell>
-        </DataTable.Row>
-        <DataTable.Row>
-          <DataTable.Cell>수익률</DataTable.Cell>
-          <DataTable.Cell>{rateOfReturn} %</DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
+            <DataTable.Row>
+              <DataTable.Cell>운용중인 자산(원)</DataTable.Cell>
+              <DataTable.Cell>{manageAssets}</DataTable.Cell>
+            </DataTable.Row>
+            <DataTable.Row>
+              <DataTable.Cell>수익률</DataTable.Cell>
+              <DataTable.Cell>{rateOfReturn} %</DataTable.Cell>
+            </DataTable.Row>
+          </DataTable>
 
-      <DataTable style={styles.container}>
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: 'black',
-            marginBottom: 10,
-          }}>
-          상세자산정보
-        </Text>
-        <DataTable.Header style={styles.tableHeader}>
-          {headerData.map(item => {
-            return <DataTable.Title>{item}</DataTable.Title>;
-          })}
-        </DataTable.Header>
-        {curAccount !== undefined &&
-          curAccount.map(item => {
-            return (
-              <DataTable.Row key={item.prdt_name}>
-                <DataTable.Cell>{item.prdt_name}</DataTable.Cell>
-                <DataTable.Cell>{item.prpr}</DataTable.Cell>
-                <DataTable.Cell>{item.evlu_amt}</DataTable.Cell>
-                <DataTable.Cell>{item.pchs_avg_pric}</DataTable.Cell>
-                <DataTable.Cell>{item.hldg_qty}</DataTable.Cell>
-                <DataTable.Cell>
-                  {item.evlu_pfls_rt < 0 ? (
-                    <Text style={{color: 'blue'}}>{item.evlu_pfls_rt}</Text>
-                  ) : (
-                    <Text style={{color: 'red'}}>{item.evlu_pfls_rt}</Text>
-                  )}
-                </DataTable.Cell>
-              </DataTable.Row>
-            );
-          })}
-      </DataTable>
+          <DataTable style={styles.container}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 'bold',
+                color: 'black',
+                marginBottom: 10,
+              }}>
+              상세자산정보
+            </Text>
+            <DataTable.Header style={styles.tableHeader}>
+              {headerData.map(item => {
+                return <DataTable.Title>{item}</DataTable.Title>;
+              })}
+            </DataTable.Header>
+            {curAccount !== undefined &&
+              curAccount.map(item => {
+                return (
+                  <DataTable.Row key={item.prdt_name}>
+                    <DataTable.Cell>{item.prdt_name}</DataTable.Cell>
+                    <DataTable.Cell>{item.prpr}</DataTable.Cell>
+                    <DataTable.Cell>{item.evlu_amt}</DataTable.Cell>
+                    <DataTable.Cell>{item.pchs_avg_pric}</DataTable.Cell>
+                    <DataTable.Cell>{item.hldg_qty}</DataTable.Cell>
+                    <DataTable.Cell>
+                      {item.evlu_pfls_rt < 0 ? (
+                        <Text style={{color: 'blue'}}>{item.evlu_pfls_rt}</Text>
+                      ) : (
+                        <Text style={{color: 'red'}}>{item.evlu_pfls_rt}</Text>
+                      )}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                );
+              })}
+          </DataTable>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

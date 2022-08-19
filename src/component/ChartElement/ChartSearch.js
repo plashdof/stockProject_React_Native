@@ -13,7 +13,6 @@ const Container = styled.View`
   justify-content: center;
 `;
 const SearchBar = styled.View`
-  width: 350px;
   height: 42px;
   background-color: #f2f2f2;
   border: none;
@@ -21,6 +20,7 @@ const SearchBar = styled.View`
   font-size: 17px;
   display: flex;
   flex-direction: row;
+  margin: 0 30px 0 30px;
 `;
 const SearchIcon = styled.ImageBackground`
   flex: 1;
@@ -29,7 +29,7 @@ const SearchIcon = styled.ImageBackground`
   margin: 10px 0 0 10px;
 `;
 const InputBox = styled.TextInput`
-  width: 280px;
+  width: 80%;
 `;
 const DeleteBtn = styled.Image`
   width: 18px;
@@ -93,7 +93,7 @@ function ChartSearch() {
         {result.length ? (
           <View
             style={{
-              width: 340,
+              width: '80%',
               height: result.length * 52,
               backgroundColor: '#f2f2f2',
               shadowColor: '#000',

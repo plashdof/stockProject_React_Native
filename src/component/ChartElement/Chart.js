@@ -7,16 +7,17 @@ import DayChart from './DayChart';
 import MonthChart from './MonthChart';
 
 const ChartInfoContainer = styled.View`
+  width: 100%;
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 const ChartDetailContainer = styled.View`
-  width: 300px;
+  width: 75%;
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
 `;
 const ChartName = styled.Text`
   font-size: 18px;
@@ -28,10 +29,11 @@ const ChartPrice = styled.Text`
   font-weight: bold;
 `;
 const BtnContainer = styled.View`
+  width: 25%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding-top: 15px;
 `;
 const SelectBtn = styled.TouchableOpacity`
