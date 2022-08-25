@@ -132,7 +132,7 @@ function SearchBar({setSearchResult}){
 
 
     return(
-        <>
+        <View style={{marginBottom: 20}}>
 
             <View style={{height: 55}}>
                 
@@ -167,7 +167,7 @@ function SearchBar({setSearchResult}){
                 })}
             </View>
 
-        </>
+        </View>
         
     )
 }

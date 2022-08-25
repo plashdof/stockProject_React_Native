@@ -14,16 +14,22 @@ const styles=StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 50,
-        zIndex: 0
+        zIndex: 0,
+        backgroundColor: '#F5F5F5',
+        marginTop: 5,
+        marginHorizontal: 10,
+        borderRadius: 8
 
     },
     searchStockname:{
         marginTop: 13,
-        marginLeft: 20
+        marginLeft: 20,
+        color: 'black'
     },
     searchStockprice:{
         marginTop: 13,
-        marginRight: 20
+        marginRight: 20,
+        color: 'black'
     },
     enjoybtn:{
         width: 20,
@@ -35,7 +41,7 @@ const styles=StyleSheet.create({
 
 function SearchLayout({gotoChart}){
 
-    let [searchresultStockList, setSearchresultStockList] = useState([]);       //  주식이름 리스트
+    let [searchresultStockList, setSearchresultStockList] = useState(['삼성전자', 'LG에너지솔루션', 'SK하이닉스', '삼성바이오로직스', '삼성전자우', 'LG화학', 'NAVER', '현대차', '삼성SDI', '기아']);       //  주식이름 리스트
     let [searchresultPriceList, setSearchresultPriceList] = useState([]);       //  주식가격 리스트
     let [tostr, setTostr] = useState([]);                                       //  즐겨찾기 목록 데이터
     let [priceisLoading, setpriceisLoading] = useState(false);                  
@@ -148,6 +154,7 @@ function SearchLayout({gotoChart}){
             setTostr(tostr.filter(x=>x !== item))
         }
     }
+
 
     // 검색리스트 클릭시, 해당 주식의 차트페이지로 이동
     
