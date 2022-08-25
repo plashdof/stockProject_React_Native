@@ -5,21 +5,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text, TouchableOpacity} from 'react-native';
 import DayChart from './DayChart';
 import MonthChart from './MonthChart';
+import DrawChart from '../HomeElement/DrawChart';
 
 const ChartInfoContainer = styled.View`
+  width: 100%;
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 const ChartDetailContainer = styled.View`
-  width: 300px;
+  width: 75%;
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
+  margin-left: 10px;
 `;
 const ChartName = styled.Text`
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: black;
 `;
@@ -28,10 +30,11 @@ const ChartPrice = styled.Text`
   font-weight: bold;
 `;
 const BtnContainer = styled.View`
+  width: 25%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding-top: 15px;
 `;
 const SelectBtn = styled.TouchableOpacity`
@@ -52,32 +55,34 @@ const ChartContainer = styled.View`
 `;
 
 function Chart(props) {
-  const [chartType, setChartType] = useState('month');
+  const [chartType, setChartType] = useState('day');
   const [chartDataObj1, setchartDataObj1] = useState(null);
-  const [chartLoading, setChartLoading] = useState(true);
-  const [previewLoading, setPreviewLoading] = useState(true);
   const [tostr, settostr] = useState([]); //즐겨찾기 목록
   const [afterFirstFetch, setafterFirstFetch] = useState(false);
+  let [endfetchdata, setEndfetchdata] = useState(false);
+  let [chartPrice, setChartPrice] = useState();
+  let [chartData1, setchartData1] = useState({
+    Open: {keys: 'values'},
+    High: {keys: 'values'},
+    Low: {keys: 'values'},
+    Close: {keys: 'values'},
+  });
+  let [rising, setRising] = useState(true);
 
   const selectedStock = props.props;
-
+  const stockRef = useRef(); //3초마다 데이터 가져오기위함. 현재 선택된 종목ref
   let [uuid, Setuuid] = useState(-1);
 
   AsyncStorage.getItem('uuid', (err, result) => {
     Setuuid(result);
   });
-
   function handleChartType(e) {
     setChartType(e);
   }
 
   const selectChartType = {
-    day: <DayChart props={chartDataObj1} />,
+    day: <DrawChart props={chartDataObj1} />,
     month: <MonthChart props={chartDataObj1} />,
-    // day: <DayChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />,
-    // month: (
-    //   <MonthChart props={[selectedStock, selectedCodePrice, chartDataObj1]} />
-    // ),
   };
 
   /* 즐겨찾기 */
@@ -128,43 +133,36 @@ function Chart(props) {
   const interval = useRef(null);
   const chartData = () => {
     //차트 데이터 받아오기
-    // fetch("http://54.215.210.171:8000/getPrice", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     code: stockRef.current[0],
-    //     start: "2022-06-27",
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     setchartData1(data);
-    //      setChartLoading(false);
-    //   });
-    // fetch("http://54.215.210.171:8000/getPreview", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     code: [stockRef.current[0]],
-    //   }),
-    //   headers: {
-    //     "Content-Type": "./application.json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setSelectedCodePrice(data);
-    //     setPreviewLoading(false);
-    //   });
-    console.log('차트데이터받아옴');
+    fetch('http://54.215.210.171:8000/getPrice', {
+      method: 'POST',
+      body: JSON.stringify({
+        code: selectedStock,
+        start: '2022-06-25',
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setchartData1(data);
+        setEndfetchdata(true);
+        const Closetemp = Object.values(data.Close);
+        const Opentemp = Object.values(data.Open);
+        const size = Closetemp.length - 1;
+        setChartPrice(Closetemp[size].toLocaleString('ko-KR'));
+        if (Opentemp[size] > Closetemp[size]) {
+          setRising(false);
+        } else {
+          setRising(true);
+        }
+      });
   };
 
   useEffect(() => {
     chartData();
-    interval.current = setInterval(chartData, 10000);
+    interval.current = setInterval(chartData, 60000); //1분마다 함수 실행
+
     return () => {
       clearInterval(interval.current);
     };
@@ -172,33 +170,41 @@ function Chart(props) {
 
   /*차트 그리기*/
 
-  let [chartData1, setchartData1] = useState({
-    Open: {keys: 'values'},
-    High: {keys: 'values'},
-    Low: {keys: 'values'},
-    Close: {keys: 'values'},
-  });
+  useEffect(() => {
+    if (endfetchdata) {
+      parsing1();
+    }
+  }, [chartData1, endfetchdata]);
 
   function parsing1() {
-    setchartDataObj1({
-      date: Object.keys(chartData1.Open),
-      open: Object.values(chartData1.Open),
-      high: Object.values(chartData1.High),
-      low: Object.values(chartData1.Low),
-      close: Object.values(chartData1.Close),
-    });
-  }
+    let date = Object.keys(chartData1.Open);
+    let open = Object.values(chartData1.Open);
+    let shadowH = Object.values(chartData1.High);
+    let shadowL = Object.values(chartData1.Low);
+    let close = Object.values(chartData1.Close);
+    let size = date.length;
 
-  useEffect(() => {
-    parsing1();
-  }, [chartData1]);
+    let data = [];
+    for (let i = 0; i < size; i++) {
+      data.push({
+        shadowH: Number(shadowH[i]),
+        shadowL: Number(shadowL[i]),
+        open: Number(open[i]),
+        close: Number(close[i]),
+      });
+    }
+
+    setchartDataObj1({data, date}); //  parsing 종료시, Obj 에 data, date로 구분하여 담음
+  }
 
   return (
     <>
       <ChartInfoContainer>
         <ChartDetailContainer>
           <ChartName>{selectedStock}</ChartName>
-          <ChartPrice>59,500</ChartPrice>
+          <ChartPrice style={{color: rising ? '#DA3F33' : '#3F77E5'}}>
+            {chartPrice}
+          </ChartPrice>
         </ChartDetailContainer>
         <BtnContainer>
           <SelectBtn onPress={() => handleChartType('month')}>
@@ -216,7 +222,9 @@ function Chart(props) {
           </TouchableOpacity>
         </BtnContainer>
       </ChartInfoContainer>
-      <ChartContainer>{selectChartType[chartType]}</ChartContainer>
+      <ChartContainer>
+        {selectChartType[chartDataObj1 && chartType]}
+      </ChartContainer>
     </>
   );
 }
