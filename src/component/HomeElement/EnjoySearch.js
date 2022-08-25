@@ -8,8 +8,8 @@ const styles=StyleSheet.create({
     EnjoySearchBox:{
         flex:1,    
         marginTop: 50,
-        marginLeft: 30,
-        marginRight: 30
+        marginHorizontal: 30,
+        marginBottom: 100
     },
     EnjoySearchTable:{
         flex:1,
