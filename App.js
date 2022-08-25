@@ -25,7 +25,7 @@ function App(){
 
 
   // 개발시 true로 설정하면, 앱 키자마자 home으로 넘어갑니다
-  const [isLogin, setisLogin] = useState(false);
+  const [isLogin, setisLogin] = useState(true);
 
   return (
     <NavigationContainer>
@@ -91,7 +91,7 @@ function App(){
           <Tab.Screen
             name="Popolpage"
             component={() => <Popolpage setLogin={setisLogin}/>}
-            options={{headerShown: false, tabBarLabel: '포트폴리오'}}
+            options={{headerShown: false, tabBarLabel: '포트폴리오', unmountOnBlur: true}}
           />
 
           <Tab.Screen
