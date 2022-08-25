@@ -47,6 +47,7 @@ function DrawChart({props}) {
   const xAxis = {
     position: 'BOTTOM',
     valueFormatter: props.date,
+    granularity: 1, //candel마다 date 표시
   };
 
   // 범례 지우기

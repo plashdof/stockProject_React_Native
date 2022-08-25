@@ -21,7 +21,7 @@ const ChartDetailContainer = styled.View`
   margin-left: 10px;
 `;
 const ChartName = styled.Text`
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: black;
 `;
@@ -76,7 +76,6 @@ function Chart(props) {
   AsyncStorage.getItem('uuid', (err, result) => {
     Setuuid(result);
   });
-
   function handleChartType(e) {
     setChartType(e);
   }
@@ -162,7 +161,7 @@ function Chart(props) {
 
   useEffect(() => {
     chartData();
-    interval.current = setInterval(chartData, 3000);
+    interval.current = setInterval(chartData, 60000); //1분마다 함수 실행
 
     return () => {
       clearInterval(interval.current);
