@@ -128,7 +128,14 @@ function ChartSearch() {
           <></>
         )}
       </Container>
-      <View style={{position: 'absolute', top: 160, zIndex: 1}}>
+      <View
+        style={{
+          position: 'absolute',
+          top: 160,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}>
         <Chart props={selectedStock} />
       </View>
     </>
