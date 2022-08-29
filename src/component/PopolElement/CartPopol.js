@@ -1,10 +1,11 @@
 import * as React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Touchable} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Modal} from 'react-native';
 import {useEffect, useState} from 'react';
 import SearchBar from '../SearchElement/SearchBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Fillstar from '../../assets/Searchpageimg/filledStar.png';
 import Emptystar from '../../assets/Searchpageimg/emptyStar.png';
+
 
 
 const styles=StyleSheet.create({
@@ -64,23 +65,37 @@ const styles=StyleSheet.create({
     }
 })
 
-function CartPopol({setSelectedPopol, setSubmitData, submitData}){
+// 
+
+function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, setErrormessage, setErrorheader}){
 
     let [StockList, setStockList] = useState(['삼성전자', 'LG에너지솔루션', 'SK하이닉스', '삼성바이오로직스', '삼성전자우', 'LG화학', 'NAVER', '현대차', '삼성SDI', '기아']);       //  주식이름 리스트
     let [PriceList, setPriceList] = useState([]);       //  주식가격 리스트
     let [CartList, setCartList] = useState([]);
+    let [CartCodeList, setCartCodeList] = useState([]);
+    let [StockCodeData, setStockCodeData] = useState({});
 
 
     let [tostr, setTostr] = useState([]);                                       //  즐겨찾기 목록 데이터
     let [priceisLoading, setpriceisLoading] = useState(false);                  
-    let [afterFirstFetch, setafterFirstFetch] = useState(false);                   
+    let [afterFirstFetch, setafterFirstFetch] = useState(false);       
+
 
     let [uuid, setUuid] = useState(-1);
 
 
-    AsyncStorage.getItem('uuid', (err,result)=>{
-        setUuid(result);
-    })
+    
+
+    useEffect(()=>{
+        AsyncStorage.getItem('uuid', (err,result)=>{
+            setUuid(result);
+        })
+    
+        // 주식이름 : 코드 객체 데이터 받아오기
+        AsyncStorage.getItem('StockObj', (err, result)=>{
+            setStockCodeData(JSON.parse(result));
+        })
+    },[])
 
 
     // 서버로부터 FavList 받아오기. tostr에 저장
@@ -189,6 +204,16 @@ function CartPopol({setSelectedPopol, setSubmitData, submitData}){
         }
     }
 
+    useEffect(()=>{
+        let temp = [];
+        for(let i = 0; i < CartList.length; i++){
+            temp.push(StockCodeData[CartList[i]]);
+        }
+
+        setCartCodeList(temp);
+
+    },[CartList])
+
     function removeCartHandler(item){
         setCartList(CartList.filter(x => x !== item));
     }
@@ -198,73 +223,84 @@ function CartPopol({setSelectedPopol, setSubmitData, submitData}){
     }
 
     function openModal(){
-        setSubmitData({strategy : submitData, stocklist: CartList})
-        console.log(submitData);
+        
+        if(CartList.length === 0){
+            setErrormessage('주식을 선택하세요');
+            setErrorheader('error!');
+            setErrorModal(true);
+            return;
+        }
+        setSktlist(CartCodeList)
+        setPopolModal(true);
     }
 
     return(<>
+        <View>
+            <SearchBar setSearchResult={setStockList}/>
 
-        <SearchBar setSearchResult={setStockList}/>
+            { StockList.map((item, idx)=>{
+                    return(
+                        <TouchableOpacity style={styles.StockList} onPress={()=>{PressStockList(item)}}>
 
-        { StockList.map((item, idx)=>{
-                return(
-                    <TouchableOpacity style={styles.StockList} onPress={()=>{PressStockList(item)}}>
-
-                        
-                        <Text style={styles.StockName}>{item}</Text>
-                        
-                        <View style={{flexDirection:'row'}}>
-
-                            {
-                                priceisLoading ?
-                                <ActivityIndicator style={{marginRight: 20}}></ActivityIndicator>
-                                :
-                                <Text style={styles.StockPrice}>{PriceList[idx]}</Text>
-
-                            }
                             
-                            {
-                                InEnjoyList(item) === true ?
-                                <TouchableOpacity onPress={()=>{EnjoyClick(item)}}>
-                                    <Image source={Fillstar} style={styles.enjoybtn}/>
-                                </TouchableOpacity>
-                                :
-                                <TouchableOpacity onPress={()=>{EnjoyClick(item)}}>
-                                    <Image source={Emptystar} style={styles.enjoybtn}/>
-                                </TouchableOpacity>
-                            }
+                            <Text style={styles.StockName}>{item}</Text>
                             
-                        </View>
+                            <View style={{flexDirection:'row'}}>
+
+                                {
+                                    priceisLoading ?
+                                    <ActivityIndicator style={{marginRight: 20}}></ActivityIndicator>
+                                    :
+                                    <Text style={styles.StockPrice}>{PriceList[idx]}</Text>
+
+                                }
+                                
+                                {
+                                    InEnjoyList(item) === true ?
+                                    <TouchableOpacity onPress={()=>{EnjoyClick(item)}}>
+                                        <Image source={Fillstar} style={styles.enjoybtn}/>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={()=>{EnjoyClick(item)}}>
+                                        <Image source={Emptystar} style={styles.enjoybtn}/>
+                                    </TouchableOpacity>
+                                }
+                                
+                            </View>
+                            
                         
-                    
-                    </TouchableOpacity>
-                )
-            })
-        }
-
-        <Text style={styles.CartHeader}>장바구니</Text>
-
-        {
-            CartList.map((item)=>{
-                return(
-                    <TouchableOpacity style={styles.CartList}>
-                        <Text style={styles.StockName}>{item}</Text>
-                        <TouchableOpacity style={{marginTop: 10, marginRight: 10}} onPress={()=>{removeCartHandler(item)}}>
-                            <Text style={{fontSize: 20}}>x</Text>
                         </TouchableOpacity>
-                    </TouchableOpacity>
-                )
-            })
-        }
+                    )
+                })
+            }
 
-        <TouchableOpacity style={styles.Submitbtn} onPress={openModal}>
-            <Text style={{textAlign: 'center', color: 'white'}}>선택완료</Text>
-        </TouchableOpacity>
+            <Text style={styles.CartHeader}>장바구니</Text>
 
-        <TouchableOpacity onPress={GobackHandler} style={{marginTop: 50}}>
-            <Text>뒤로가기</Text>
-        </TouchableOpacity>
-    
+            {
+                CartList.map((item)=>{
+                    return(
+                        <TouchableOpacity style={styles.CartList}>
+                            <Text style={styles.StockName}>{item}</Text>
+                            <TouchableOpacity style={{marginTop: 10, marginRight: 10}} onPress={()=>{removeCartHandler(item)}}>
+                                <Text style={{fontSize: 20}}>x</Text>
+                            </TouchableOpacity>
+                        </TouchableOpacity>
+                    )
+                })
+            }
+
+            <TouchableOpacity style={styles.Submitbtn} onPress={openModal}>
+                <Text style={{textAlign: 'center', color: 'white'}}>선택완료</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={GobackHandler} style={{marginTop: 50}}>
+                <Text>뒤로가기</Text>
+            </TouchableOpacity>
+        </View>
+
+        <View style={{height: 300}}>
+
+        </View>
     </>
     )
 }

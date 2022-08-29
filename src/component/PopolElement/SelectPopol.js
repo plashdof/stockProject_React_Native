@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react';
 
 
 
+
 const styles=StyleSheet.create({
     header:{
         textAlign: 'center',
@@ -27,13 +28,15 @@ const styles=StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         color: 'black',
+        marginBottom: 15
     },
     btnView:{
         flexDirection:'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 10
     },
     btnText:{
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         marginVertical: 3
     },
     submitbtn:{
@@ -47,47 +50,48 @@ const styles=StyleSheet.create({
     },
 })
 
-function SelectPopol({setSelectedPopol, setSubmitData}){
+function SelectPopol({setSelectedPopol, setStrategy, setErrorModal, setErrormessage, setErrorheader}){
 
     let [uuid, Setuuid] = useState(-1);
     let [clickedbtn, setClickedbtn] = useState(-1);
+
     let [popolList, setPopolList] = useState([{
-        name: 'A',
-        er : 5,
-        sharpe : 10,
-        filename : '정량'
-    },{
-        name : 'B',
-        er : 10,
-        sharpe : 12,
-        filename : '공격적'
+        name: '전략',
+        er: 5,
+        sharpe: 10
     }]);
 
     AsyncStorage.getItem('uuid', (err,result) =>{
         Setuuid(result);
     })
 
-    useEffect(()=>{
-        if(uuid !== -1){
-            fetch('http://haniumproject.com/getModelInfo',{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'uuid' : uuid
-                }
-            })
-            .then(response=> response.json())
-            .then(data => {
-                setPopolList(data);
-                console.log('전략데이터 불러오기 성공');
-            })
-        }
+    // useEffect(()=>{
+    //     if(uuid !== -1){
+    //         fetch('http://haniumproject.com/getModelInfo',{
+    //             method: 'POST',
+    //             headers:{
+    //                 'Content-Type': 'application/json',
+    //                 'uuid' : uuid
+    //             }
+    //         })
+    //         .then(response=> response.json())
+    //         .then(data => {
+    //             setPopolList(data);
+    //             console.log('전략데이터 불러오기 성공');
+    //         })
+    //     }
         
-    },[uuid])
+    // },[uuid])
 
 
     function SubmitHandler(){
-        setSubmitData(popolList[clickedbtn]);
+        if(clickedbtn === -1){
+            setErrormessage('전략을 선택하세요');
+            setErrorheader('error!');
+            setErrorModal(true);
+            return;
+        }
+        setStrategy(popolList[clickedbtn].name);
         setSelectedPopol(true);
     }
 
@@ -121,11 +125,6 @@ function SelectPopol({setSelectedPopol, setSubmitData}){
                         <Text style={styles.btnText}>{item.sharpe}</Text>
                     </View>
                     
-                    <View style={styles.btnView}>
-                        <Text style={styles.btnText}>Filename</Text>
-                        <Text style={styles.btnText}>{item.filename}</Text>
-                    </View>
-                    
                     
                 </TouchableOpacity>
             )
@@ -135,6 +134,7 @@ function SelectPopol({setSelectedPopol, setSubmitData}){
         <TouchableOpacity style={styles.submitbtn} onPress={SubmitHandler} >
             <Text style={{color: 'white'}}>다음 단계로</Text>
         </TouchableOpacity>
+
 
     </View>
     )
