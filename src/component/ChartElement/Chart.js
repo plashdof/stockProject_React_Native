@@ -48,11 +48,16 @@ const FavBtn = styled.Image`
   width: 20px;
 `;
 const ChartContainer = styled.View`
-  height: 250px;
+  height: 240px;
   display: flex;
   flex-direction: column;
-  background-color: beige;
+  justify-content: center;
+  // border: 1px solid #cdcdcd;
   margin: 10px;
+  shadow-color: #000;
+  elevation: 3;
+  background-color: white;
+  border-radius: 8px;
 `;
 const ChartHighLowContainer = styled.View`
   height: 100px;
@@ -236,7 +241,7 @@ function Chart(props) {
       </ChartContainer>
       <ChartHighLowContainer>
         <Text style={{marginLeft: 10}}>52주 최고/최저</Text>
-        <ChartAnalysis props={chartDataObj1} />
+        {chartDataObj1 && <ChartAnalysis props={chartDataObj1} />}
       </ChartHighLowContainer>
     </View>
   );
