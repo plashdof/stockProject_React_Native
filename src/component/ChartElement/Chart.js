@@ -2,10 +2,11 @@ import {useState, useEffect, useRef} from 'react';
 import * as React from 'react';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DayChart from './DayChart';
 import MonthChart from './MonthChart';
 import DrawChart from '../HomeElement/DrawChart';
+import ChartAnalysis from './ChartAnalysis';
 
 const ChartInfoContainer = styled.View`
   width: 100%;
@@ -46,12 +47,20 @@ const FavBtn = styled.Image`
   height: 20px;
   width: 20px;
 `;
-
 const ChartContainer = styled.View`
-  height: 350px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   background-color: beige;
+  margin: 10px;
+`;
+const ChartHighLowContainer = styled.View`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #cdcdcd;
+  margin: 10px 10px 10px 10px;
 `;
 
 function Chart(props) {
@@ -198,7 +207,7 @@ function Chart(props) {
   }
 
   return (
-    <>
+    <View>
       <ChartInfoContainer>
         <ChartDetailContainer>
           <ChartName>{selectedStock}</ChartName>
@@ -225,7 +234,11 @@ function Chart(props) {
       <ChartContainer>
         {selectChartType[chartDataObj1 && chartType]}
       </ChartContainer>
-    </>
+      <ChartHighLowContainer>
+        <Text style={{marginLeft: 10}}>52주 최고/최저</Text>
+        <ChartAnalysis props={chartDataObj1} />
+      </ChartHighLowContainer>
+    </View>
   );
 }
 
