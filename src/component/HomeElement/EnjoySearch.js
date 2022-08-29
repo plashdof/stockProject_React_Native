@@ -62,6 +62,7 @@ function EnjoyChart(){
                 console.log(data)
                 setTostr(data.favlist.split(",").slice(0,3));
                 AsyncStorage.setItem('balance', data.quantity);
+                AsyncStorage.setItem('kakaoid', data.kakaoid);
                 console.log('즐겨찾기 불러오기 성공');
             });
         }

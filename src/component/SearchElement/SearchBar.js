@@ -55,6 +55,7 @@ function SearchBar({setSearchResult}){
 
 
     let [autocompleteData, setAutocompleteData] = useState([]);     // local에서 받아올 주식이름 데이터
+
     let [autocompleteResult, setautocompleteResult] = useState([]);  //  화면에 출력할 자동완성 데이터
     let [autoboxTemp, setautoboxTemp] = useState();                   //  자동완성 리스트 활성화여부 State
     let [inputValue, setInputValue] = useState();                       // 검색창 값을 State로 관리
@@ -63,10 +64,16 @@ function SearchBar({setSearchResult}){
 
 
 
-    // 주식이름 데이터 받아오기
-    AsyncStorage.getItem('StockNames', (err, result)=>{
-        setAutocompleteData(JSON.parse(result));
-    })
+    
+
+    useEffect(()=>{
+        // 주식이름 데이터 받아오기
+        AsyncStorage.getItem('StockNames', (err, result)=>{
+            setAutocompleteData(JSON.parse(result));
+        })
+    },[])
+
+    
 
 
     // 검색창 검색시, 자동완성 리스트 filtering

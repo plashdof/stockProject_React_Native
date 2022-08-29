@@ -171,7 +171,7 @@ function HomeChart(){
         fetch(`http://54.215.210.171:8000/getNameToCode`)
         .then((response) => response.json())
         .then((data) => {
-            
+            AsyncStorage.setItem('StockObj', JSON.stringify(data)); // 전체 종목:코드 객체
             AsyncStorage.setItem('StockNames', JSON.stringify(Object.keys(data))); //전체 종목명 배열
             AsyncStorage.setItem('StockCodes', JSON.stringify(Object.values(data))); //전체 코드 배열
             setLoading(false);

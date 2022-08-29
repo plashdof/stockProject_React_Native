@@ -207,7 +207,8 @@ function SearchLayout({gotoChart}){
 
             }
 
-            
+            <View style={{height: 300}}>
+            </View>
             
         
         </View>
