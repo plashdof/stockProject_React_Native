@@ -7,7 +7,7 @@ import {useState, useEffect} from 'react';
 import PopolModal from '../component/PopolElement/PopolModal';
 import AlertModal from '../component/PopolElement/AlertModal';
 
-function Popolpage({setLogin}){
+function Popolpage({setLogin, navigation}){
 
     const [selectedPopol, setSelectedPopol] = useState(false);
     const [strategy, setStrategy] = useState();
@@ -57,7 +57,7 @@ function Popolpage({setLogin}){
                 }}>
             </View>
 
-            <AlertModal alertmessage={errormessage} alertheader={errorheader} setAlertModal={setErrorModal}/>
+            <AlertModal alertmessage={errormessage} alertheader={errorheader} setAlertModal={setErrorModal} navigation={null}/>
         </>
         :
         <></>
@@ -75,7 +75,7 @@ function Popolpage({setLogin}){
                 }}>
             </View>
 
-            <PopolModal setPopolModal={setPopolModal} strategy={strategy} sktlist={sktlist}/>
+            <PopolModal setPopolModal={setPopolModal} strategy={strategy} sktlist={sktlist} navigation={navigation}/>
         </>
         :
         <></>

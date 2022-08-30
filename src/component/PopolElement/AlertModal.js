@@ -42,11 +42,16 @@ const styles=StyleSheet.create({
 
 })
 
-function AlertModal({alertmessage, alertheader, setAlertModal}){
+function AlertModal({alertmessage, alertheader, setAlertModal, navigation}){
 
 
     function ConfirmModalHandler(){
-        setAlertModal(false);
+        if(navigation !== null){
+            navigation.navigate('Balancepage')
+        }else{
+            setAlertModal(false);
+        }
+        
     }
     
 

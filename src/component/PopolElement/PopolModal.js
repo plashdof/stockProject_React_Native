@@ -44,7 +44,7 @@ const styles=StyleSheet.create({
 
 })
 
-function PopolModal({setPopolModal, sktlist, strategy}){
+function PopolModal({setPopolModal, sktlist, strategy, navigation}){
 
     const [balance, setBalance] = useState(15000);
     const [kakaoid, setKakaoid] = useState();
@@ -113,6 +113,7 @@ function PopolModal({setPopolModal, sktlist, strategy}){
         setAlertmessage('투자에 성공했습니다');
         setAlertheader('success!');
         setAlertModal(true);
+
     }
 
     function EnterHandler(e){
@@ -170,7 +171,7 @@ function PopolModal({setPopolModal, sktlist, strategy}){
                 }}>
             </View>
 
-            <AlertModal alertmessage={alertmessage} alertheader={alertheader} setAlertModal={setAlertModal}/>
+            <AlertModal alertmessage={alertmessage} alertheader={alertheader} setAlertModal={setAlertModal} navigation={navigation}/>
         </>
         :
         <></>
