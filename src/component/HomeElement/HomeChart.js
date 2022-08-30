@@ -118,7 +118,6 @@ function HomeChart(){
         .then(data => { 
             setEndfetchdata1(true);
             setchartData1(data);
-            console.log(data);
 
             /* 최초렌더링시, 가장먼저보이는 Kospi의 가격과 가격색깔을 적용 */
 
@@ -129,7 +128,12 @@ function HomeChart(){
             if(Opentemp[size] > Closetemp[size]){
                 setRising(false);
             }
-        })
+            console.log('코스피 차트데이터 불러오기 성공');
+        }).catch(err =>{
+            console.log('코스피 차트데이터 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
 
         // 코스닥
         fetch('http://54.215.210.171:8000/getPrice',{
@@ -145,8 +149,12 @@ function HomeChart(){
         .then(data => {
             setEndfetchdata2(true);
             setchartData2(data);
-            console.log(data);
-        }) 
+            console.log('코스닥 차트데이터 불러오기 성공');
+        }).catch(err =>{
+            console.log('코스닥 차트데이터 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        }); 
 
 
         // 원/환율
@@ -163,8 +171,12 @@ function HomeChart(){
         .then(data => {
             setEndfetchdata3(true);
             setchartData3(data);
-            console.log(data);
-        }) 
+            console.log('원/환율 차트데이터 불러오기 성공');
+        }).catch(err =>{
+            console.log('원/환율 차트데이터 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        }); 
 
 
         // 자동완성 데이터 저장
@@ -174,7 +186,11 @@ function HomeChart(){
             AsyncStorage.setItem('StockObj', JSON.stringify(data)); // 전체 종목:코드 객체
             AsyncStorage.setItem('StockNames', JSON.stringify(Object.keys(data))); //전체 종목명 배열
             AsyncStorage.setItem('StockCodes', JSON.stringify(Object.values(data))); //전체 코드 배열
-            setLoading(false);
+            console.log('자동완성 데이터 저장 성공');
+        }).catch(err =>{
+            console.log('자동완성 데이터 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
         });
 
     },[])

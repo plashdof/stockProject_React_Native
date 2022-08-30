@@ -176,10 +176,14 @@ function Signuppage({setLogin}){
             }
         }).then(response => response.json())
         .then((data)=>{
-            console.log(data);
             Alert.alert('알림', '회원가입이 완료되었습니다')
             setLogin(true);
-        })
+            console.log('회원가입 성공');
+        }).catch(err =>{
+            console.log('회원가입 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
     }
 
 

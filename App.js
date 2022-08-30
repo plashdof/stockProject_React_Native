@@ -25,7 +25,7 @@ function App(){
 
 
   // 개발시 true로 설정하면, 앱 키자마자 home으로 넘어갑니다
-  const [isLogin, setisLogin] = useState(true);
+  const [isLogin, setisLogin] = useState(false);
 
   return (
     <NavigationContainer>
@@ -64,9 +64,6 @@ function App(){
               return <Image source={iconName} style={{width: 25, height: 25}} />
 
             }
-
-            
-
           })}
           
         >

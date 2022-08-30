@@ -11,7 +11,7 @@ function Popolpage({setLogin, navigation}){
 
     const [selectedPopol, setSelectedPopol] = useState(false);
     const [strategy, setStrategy] = useState();
-    const [sktlist, setSktlist] = useState([]);
+    const [stklist, setStklist] = useState([]);
     
     const [popolModal, setPopolModal] = useState(false);
 
@@ -26,7 +26,7 @@ function Popolpage({setLogin, navigation}){
 
             { selectedPopol ?
                 <CartPopol setSelectedPopol={setSelectedPopol} 
-                    setSktlist={setSktlist} 
+                    setStklist={setStklist} 
                     setPopolModal={setPopolModal} 
                     setErrorModal={setErrorModal}
                     setErrormessage={setErrormessage}
@@ -75,7 +75,7 @@ function Popolpage({setLogin, navigation}){
                 }}>
             </View>
 
-            <PopolModal setPopolModal={setPopolModal} strategy={strategy} sktlist={sktlist} navigation={navigation}/>
+            <PopolModal setPopolModal={setPopolModal} strategy={strategy} stklist={stklist} navigation={navigation}/>
         </>
         :
         <></>

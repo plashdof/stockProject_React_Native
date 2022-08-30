@@ -41,9 +41,12 @@ function EnjoyChart(){
     let [tostrPrice, settostrPrice] = useState([]);
     let [uuid, Setuuid] = useState(-1);
 
-    AsyncStorage.getItem('uuid', (err,result) =>{
-        Setuuid(result);
-    })
+    useEffect(()=>{
+        AsyncStorage.getItem('uuid', (err,result) =>{
+            Setuuid(result);
+        })
+    },[])
+    
 
 
     useEffect(()=>{
@@ -61,9 +64,12 @@ function EnjoyChart(){
             .then( data => {
                 console.log(data)
                 setTostr(data.favlist.split(",").slice(0,3));
-                AsyncStorage.setItem('balance', data.quantity);
                 AsyncStorage.setItem('kakaoid', data.kakaoid);
                 console.log('즐겨찾기 불러오기 성공');
+            }).catch(err =>{
+                console.log('즐겨찾기 불러오기 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
             });
         }
         
@@ -88,7 +94,11 @@ function EnjoyChart(){
             .then( data => {
                 settostrPrice(data);
                 console.log('즐겨찾기 가격들 불러오기 성공');
-            })
+            }).catch(err =>{
+                console.log('즐겨찾기 가격들 불러오기 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
+            });
         }
     },[tostr])
 

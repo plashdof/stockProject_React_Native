@@ -67,7 +67,7 @@ const styles=StyleSheet.create({
 
 // 
 
-function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, setErrormessage, setErrorheader}){
+function CartPopol({setSelectedPopol, setStklist, setPopolModal, setErrorModal, setErrormessage, setErrorheader}){
 
     let [StockList, setStockList] = useState(['삼성전자', 'LG에너지솔루션', 'SK하이닉스', '삼성바이오로직스', '삼성전자우', 'LG화학', 'NAVER', '현대차', '삼성SDI', '기아']);       //  주식이름 리스트
     let [PriceList, setPriceList] = useState([]);       //  주식가격 리스트
@@ -111,11 +111,14 @@ function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, 
             })
             .then( response => response.json())
             .then( data => {
-                console.log(data)
                 setTostr(data.favlist.split(","));
-                console.log('즐겨찾기 불러오기 완료');
                 setafterFirstFetch(true);
                 setTemp(true);
+                console.log('즐겨찾기 불러오기 성공');
+            }).catch(err =>{
+                console.log('즐겨찾기 불러오기 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
             });
 
         }
@@ -141,7 +144,12 @@ function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, 
         .then( data => {
             setPriceList(data);                                 
             setpriceisLoading(false);
-        })
+            console.log('가격리스트 불러오기 성공');
+        }).catch(err =>{
+            console.log('가격리스트 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
 
     },[StockList])
 
@@ -165,7 +173,11 @@ function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, 
             .then(response => response.json())
             .then(data => {
                 console.log(data);                      //  code : 1 반환시 성공
-                console.log("즐겨찾기 변경 완료");
+                console.log("즐겨찾기 변경 성공");
+            }).catch(err =>{
+                console.log('즐겨찾기 변경 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
             });
         }
         
@@ -230,7 +242,7 @@ function CartPopol({setSelectedPopol, setSktlist, setPopolModal, setErrorModal, 
             setErrorModal(true);
             return;
         }
-        setSktlist(CartCodeList)
+        setStklist(CartCodeList)
         setPopolModal(true);
     }
 

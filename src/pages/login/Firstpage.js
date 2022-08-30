@@ -63,18 +63,20 @@ function Firstpage({navigation, setLogin}){
             .then(data => {
                 // TODO : 서버로 Token을 주게되면, 반환값을 받는다.
                 // 이미회원이면 home으로, 회원이 아니면 Signuppage로 가게하기!
-                console.log(data.uuid);
                 AsyncStorage.setItem('uuid', data.uuid)
                 AsyncStorage.setItem('name', data.name)
+                console.log('로그인성공');
 
                 if(data.registration === 0){
                     setLogin(true);
                 } else if(data.registration === 1){
                     navigation.navigate('Signuppage');
-                }
-                
-                
-            }).catch()
+                } 
+            }).catch(err =>{
+                console.log('로그인실패');
+                console.log('-----에러내용-----');
+                console.log(err);
+            });
         }
     },[token])
 

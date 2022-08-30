@@ -61,27 +61,35 @@ function SelectPopol({setSelectedPopol, setStrategy, setErrorModal, setErrormess
         sharpe: 10
     }]);
 
-    AsyncStorage.getItem('uuid', (err,result) =>{
-        Setuuid(result);
-    })
+    useEffect(()=>{
+        AsyncStorage.getItem('uuid', (err,result) =>{
+            Setuuid(result);
+        })
+    },[])
+    
 
-    // useEffect(()=>{
-    //     if(uuid !== -1){
-    //         fetch('http://haniumproject.com/getModelInfo',{
-    //             method: 'POST',
-    //             headers:{
-    //                 'Content-Type': 'application/json',
-    //                 'uuid' : uuid
-    //             }
-    //         })
-    //         .then(response=> response.json())
-    //         .then(data => {
-    //             setPopolList(data);
-    //             console.log('전략데이터 불러오기 성공');
-    //         })
-    //     }
+    
+    useEffect(()=>{
+        if(uuid !== -1){
+            fetch('http://haniumproject.com/getModelInfo',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'uuid' : uuid
+                }
+            })
+            .then(response=> response.json())
+            .then(data => {
+                setPopolList(data);
+                console.log('전략데이터 불러오기 성공');
+            }).catch(err =>{
+                console.log('전략데이터 불러오기 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
+            });
+        }
         
-    // },[uuid])
+    },[uuid])
 
 
     function SubmitHandler(){

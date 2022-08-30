@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View,Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useState, useEffect} from 'react';
-import { TextInput } from 'react-native-paper';
+import { ActivityIndicator, TextInput } from 'react-native-paper';
 import AlertModal from './AlertModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -44,33 +44,84 @@ const styles=StyleSheet.create({
 
 })
 
-function PopolModal({setPopolModal, sktlist, strategy, navigation}){
+function PopolModal({setPopolModal, stklist, strategy, navigation}){
 
     const [balance, setBalance] = useState(15000);
     const [kakaoid, setKakaoid] = useState();
     const [quantity, setquantity] = useState();
-
+    const [uuid, setUuid] = useState(-1);
     const [numberEntered, setNumberEntered] = useState(false);
+    const [gotoBalacne, setGotoBalance] = useState(false);
     
 
     const [alertModal, setAlertModal] = useState(false);
     const [alertmessage, setAlertmessage] = useState();
     const [alertheader, setAlertheader] = useState();
-    
+    const [loadingPrice, setLoadingPrice] = useState(true);
+    const [loadingQuantity, setLoadingQuantity] = useState(false);
 
     let [MaxStockPrice, setMaxStockPrice] = useState();
 
     useEffect(()=>{
 
-        // AsyncStorage.getItem('balance',(err, result)=>{
-        //     setBalance(result);
-        // })
+        AsyncStorage.getItem('uuid', (err,result)=>{
+            setUuid(result);
+        })
 
         AsyncStorage.getItem('kakaoid', (err,result)=>{
             setKakaoid(result);
         })
 
+       
+
+        fetch('http://54.215.210.171:8000/getPreview',{
+            method: 'POST',
+            body:JSON.stringify({    
+                code: stklist       
+            }),
+            headers:{
+                'Content-Type' : './application.json'
+            }
+        }).then( response => response.json())
+        .then( data => {
+            let max = 0;
+            for(let num of data){
+                if(num > max) max = num;
+            }                          
+            setMaxStockPrice(max);
+        }).then(data =>{
+            setLoadingPrice(false);
+            console.log('MaxStockPrice 계산 성공')
+        }).catch(err =>{
+            console.log('MaxStockPrice 계산 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
+
     },[])
+
+    useEffect(()=>{
+        if(uuid !== -1){
+            fetch('http://haniumproject.com/getUserAccount',{
+                method: 'POST',
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'uuid' : uuid
+                }
+            })
+            .then( response => response.json())
+            .then( data => {
+                setBalance(data.quantity);
+            }).then(data =>{
+                setLoadingQuantity(false);
+                console.log('잔고 불러오기 성공')
+            }).catch(err =>{
+                console.log('잔고 불러오기 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
+            });
+        }
+    },[uuid])
 
     
 
@@ -79,14 +130,15 @@ function PopolModal({setPopolModal, sktlist, strategy, navigation}){
     }
 
     function PopolCompleteHandler(){
+        console.log(MaxStockPrice);
         if(quantity > balance * 0.85){
-            setAlertmessage('금액이 너무 높습니다');
+            setAlertmessage('잔고의 85% 이하 입력하세요');
             setAlertheader('error!')
             setAlertModal(true);
             return
         }
         else if(quantity < MaxStockPrice * 100){
-            setAlertmessage('금액이 너무 낮습니다');
+            setAlertmessage(`${MaxStockPrice * 100}원 이상 입력하세요`);
             setAlertheader('error!')
             setAlertModal(true);
             return
@@ -102,17 +154,22 @@ function PopolModal({setPopolModal, sktlist, strategy, navigation}){
             body: JSON.stringify({
                 'kakaoid' : kakaoid,
                 'strategy' : strategy,
-                'stklist' : sktlist,
+                'stklist' : stklist,
                 'quantity' : quantity
             }),
             headers:{
                 'Content-type' : 'application.json'
             }
-        })
+        }).catch(err =>{
+            console.log('포트폴리오 서버 제출 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
 
         setAlertmessage('투자에 성공했습니다');
         setAlertheader('success!');
         setAlertModal(true);
+        setGotoBalance(true);
 
     }
 
@@ -135,7 +192,17 @@ function PopolModal({setPopolModal, sktlist, strategy, navigation}){
                     <Text style={{marginTop: 10}}>X</Text>
                 </TouchableOpacity>
             </View>
-
+            {loadingPrice | loadingQuantity ?
+            <ActivityIndicator style={{
+                position:'absolute',
+                top: 50,
+                bottom: 50,
+                right: 50,
+                left: 50
+                }} size='small' color='black'>
+            </ActivityIndicator>
+            
+            :
             <View style={styles.ModalMain}>
                 <Text style={styles.MainText}>잔고금액 : {balance}</Text>
 
@@ -157,6 +224,10 @@ function PopolModal({setPopolModal, sktlist, strategy, navigation}){
                 }
                 
             </View>
+            }
+
+
+
         </View>
 
         {alertModal ?
@@ -171,7 +242,7 @@ function PopolModal({setPopolModal, sktlist, strategy, navigation}){
                 }}>
             </View>
 
-            <AlertModal alertmessage={alertmessage} alertheader={alertheader} setAlertModal={setAlertModal} navigation={navigation}/>
+            <AlertModal alertmessage={alertmessage} alertheader={alertheader} setAlertModal={setAlertModal} navigation={gotoBalacne ? navigation : null}/>
         </>
         :
         <></>

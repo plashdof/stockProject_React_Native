@@ -70,9 +70,13 @@ function SearchLayout({gotoChart}){
             .then( data => {
                 console.log(data)
                 setTostr(data.favlist.split(","));
-                console.log('즐겨찾기 불러오기 완료');
+                console.log('즐겨찾기 불러오기 성공');
                 setafterFirstFetch(true);
                 setTemp(true);
+            }).catch(err =>{
+                console.log('즐겨찾기 불러오기 실패. setUserFavList 도 작동불가');
+                console.log('-----에러내용-----');
+                console.log(err);
             });
 
         }
@@ -98,7 +102,12 @@ function SearchLayout({gotoChart}){
         .then( data => {
             setSearchresultPriceList(data);                                 
             setpriceisLoading(false);
-        })
+            console.log('가격리스트 불러오기 성공')
+        }).catch(err =>{
+            console.log('가격리스트 불러오기 실패');
+            console.log('-----에러내용-----');
+            console.log(err);
+        });
 
     },[searchresultStockList])
 
@@ -122,7 +131,11 @@ function SearchLayout({gotoChart}){
             .then(response => response.json())
             .then(data => {
                 console.log(data);                      //  code : 1 반환시 성공
-                console.log("즐겨찾기 변경 완료");
+                console.log("즐겨찾기 변경 성공");
+            }).catch(err =>{
+                console.log('즐겨찾기 변경 실패');
+                console.log('-----에러내용-----');
+                console.log(err);
             });
         }
         
