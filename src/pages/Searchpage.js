@@ -6,8 +6,8 @@ import SearchLayout from '../component/SearchElement/SearchLayout';
 function Searchpage({navigation, setLogin}){
 
 
-    function gotoChart(){
-        navigation.navigate('Chartpage');
+    function gotoChart(item){
+        navigation.navigate('Chartpage', {name: item});
     }
 
     return(

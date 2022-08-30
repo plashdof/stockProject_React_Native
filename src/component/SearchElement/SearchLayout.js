@@ -159,7 +159,7 @@ function SearchLayout({gotoChart}){
     // 검색리스트 클릭시, 해당 주식의 차트페이지로 이동
     
     function PressStockList(item){
-        gotoChart();
+        gotoChart(item);
     }
 
     

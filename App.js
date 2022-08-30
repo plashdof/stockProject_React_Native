@@ -78,21 +78,21 @@ function App(){
 
           <Tab.Screen
             name="Chartpage"
-            component={() => <Chartpage setLogin={setisLogin}/>}
-            options={{headerShown: false, tabBarLabel: '차트'}}
-          />
+            options={{headerShown: false, tabBarLabel: '차트', unmountOnBlur: true}}>
+            {props=> <Chartpage {...props} setLogin={setisLogin}/>}
+          </Tab.Screen>
 
           <Tab.Screen
             name="Balancepage"
             component={() => <Balancepage setLogin={setisLogin}/>}
-            options={{headerShown: false, tabBarLabel: '잔고확인'}}
+            options={{headerShown: false, tabBarLabel: '잔고확인', unmountOnBlur: true}}
           />
 
           <Tab.Screen
             name="Popolpage"
-            component={() => <Popolpage setLogin={setisLogin}/>}
-            options={{headerShown: false, tabBarLabel: '포트폴리오', unmountOnBlur: true}}
-          />
+            options={{headerShown: false, tabBarLabel: '포트폴리오', unmountOnBlur: true}}>
+            {props=> <Popolpage {...props} setLogin={setisLogin}/>}
+          </Tab.Screen>
 
           <Tab.Screen
             name="Searchpage"
