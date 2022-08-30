@@ -59,7 +59,7 @@ function SearchLayout({gotoChart}){
     useEffect(()=>{
         if(uuid !== -1){
 
-            fetch(`http://haniumproject.com/getUserAccount`,{
+            fetch(`http://haniumproject.com:8000/getUserAccount`,{
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',
@@ -118,7 +118,7 @@ function SearchLayout({gotoChart}){
     useEffect(()=>{
 
         if(afterFirstFetch){
-            fetch(`http://haniumproject.com/setUserFavList`,{
+            fetch(`http://haniumproject.com:8000/setUserFavList`,{
                 method: 'POST',
                 body:JSON.stringify({
                     'target' : tostr.toString()

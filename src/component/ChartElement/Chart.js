@@ -102,7 +102,7 @@ function Chart(props) {
   /* 즐겨찾기 */
   //유저의 즐겨찾기 목록 가져오기
   useEffect(() => {
-    fetch(`http://haniumproject.com/getUserAccount`, {
+    fetch(`http://haniumproject.com:8000/getUserAccount`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function Chart(props) {
   //tostr 서버에 전송?
   useEffect(() => {
     if (afterFirstFetch) {
-      fetch(`http://haniumproject.com/setUserFavList`, {
+      fetch(`http://haniumproject.com:8000/setUserFavList`, {
         method: 'POST',
         body: JSON.stringify({
           target: tostr.toString(),

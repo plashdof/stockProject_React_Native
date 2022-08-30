@@ -71,7 +71,7 @@ function SelectPopol({setSelectedPopol, setStrategy, setErrorModal, setErrormess
     
     useEffect(()=>{
         if(uuid !== -1){
-            fetch('http://haniumproject.com/getModelInfo',{
+            fetch('http://haniumproject.com:8000/getModelInfo',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',

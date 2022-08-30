@@ -53,7 +53,7 @@ function EnjoyChart(){
         if(uuid !== -1){
             
             console.log(uuid);
-            fetch('http://haniumproject.com/getUserAccount',{
+            fetch('http://haniumproject.com:8000/getUserAccount',{
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',

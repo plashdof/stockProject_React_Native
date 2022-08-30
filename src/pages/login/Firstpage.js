@@ -51,7 +51,7 @@ function Firstpage({navigation, setLogin}){
         if(token !== -1){
             setisLoginLoading(true);
 
-            fetch('http://haniumproject.com/auth',{
+            fetch('http://haniumproject.com:8000/auth',{
                 method: 'POST',
                 body:JSON.stringify({
                     code: token

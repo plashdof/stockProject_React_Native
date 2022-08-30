@@ -58,7 +58,7 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
     const [alertmessage, setAlertmessage] = useState();
     const [alertheader, setAlertheader] = useState();
     const [loadingPrice, setLoadingPrice] = useState(true);
-    const [loadingQuantity, setLoadingQuantity] = useState(false);
+    const [loadingQuantity, setLoadingQuantity] = useState(true);
 
     let [MaxStockPrice, setMaxStockPrice] = useState();
 
@@ -102,7 +102,7 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
 
     useEffect(()=>{
         if(uuid !== -1){
-            fetch('http://haniumproject.com/getUserAccount',{
+            fetch('http://haniumproject.com:8000/getUserAccount',{
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',
@@ -132,7 +132,7 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
     function PopolCompleteHandler(){
         console.log(MaxStockPrice);
         if(quantity > balance * 0.85){
-            setAlertmessage('잔고의 85% 이하 입력하세요');
+            setAlertmessage('잔고의 85% 이하로 입력하세요');
             setAlertheader('error!')
             setAlertModal(true);
             return
