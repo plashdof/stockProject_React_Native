@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Chart from './Chart';
 
 const Container = styled.View`
   padding: 30px 0 30px 0;
@@ -46,12 +45,11 @@ const ResultBtn = styled.TouchableOpacity`
   flex-direction: column;
   background-color: #ffffff;
 `;
-function ChartSearch() {
+function ChartSearch({setSearchResult}) {
   const [keyword, setKeyword] = useState('');
   const [stockNames, setStockNames] = useState();
   const [stockCodes, setStockCodes] = useState();
   const [result, setResult] = useState([]); //검색된 키워드를 포함하는 종목 배열(자동완성 리스트)
-  const [selectedStock, setSelectedStock] = useState('삼성전자'); //선택된 종목
   useEffect(() => {
     AsyncStorage.getItem('StockNames', (err, result) => {
       setStockNames(JSON.parse(result));
@@ -74,7 +72,7 @@ function ChartSearch() {
 
   function selectStock(e) {
     setKeyword('');
-    setSelectedStock(e);
+    setSearchResult(e);
   }
   return (
     <>
@@ -105,6 +103,9 @@ function ChartSearch() {
               shadowRadius: 1.41,
 
               elevation: 2,
+              zIndex: 1,
+              position: 'absolute',
+              top: 73,
             }}>
             {result.map(stock => {
               return (
@@ -128,16 +129,6 @@ function ChartSearch() {
           <></>
         )}
       </Container>
-      <View
-        style={{
-          position: 'absolute',
-          top: 160,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}>
-        <Chart props={selectedStock} />
-      </View>
     </>
   );
 }

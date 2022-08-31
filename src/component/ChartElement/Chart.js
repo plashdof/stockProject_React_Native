@@ -3,10 +3,10 @@ import * as React from 'react';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text, TouchableOpacity, View} from 'react-native';
-import DayChart from './DayChart';
 import MonthChart from './MonthChart';
 import DrawChart from '../HomeElement/DrawChart';
 import ChartAnalysis from './ChartAnalysis';
+import ChartSearch from './ChartSearch';
 
 const ChartInfoContainer = styled.View`
   width: 100%;
@@ -82,11 +82,9 @@ function Chart(props) {
     Close: {keys: 'values'},
   });
   let [rising, setRising] = useState(true);
-
-  const selectedStock = props.props;
+  const [selectedStock, setSelectedStock] = useState(props.props); //선택된 종목
   const stockRef = useRef(); //3초마다 데이터 가져오기위함. 현재 선택된 종목ref
   let [uuid, Setuuid] = useState(-1);
-
   AsyncStorage.getItem('uuid', (err, result) => {
     Setuuid(result);
   });
@@ -213,6 +211,7 @@ function Chart(props) {
 
   return (
     <View>
+      <ChartSearch setSearchResult={setSelectedStock} />
       <ChartInfoContainer>
         <ChartDetailContainer>
           <ChartName>{selectedStock}</ChartName>
