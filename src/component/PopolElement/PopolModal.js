@@ -63,6 +63,7 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
     let [MaxStockPrice, setMaxStockPrice] = useState();
 
     useEffect(()=>{
+        
 
         AsyncStorage.getItem('uuid', (err,result)=>{
             setUuid(result);
@@ -130,40 +131,59 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
     }
 
     function PopolCompleteHandler(){
-        console.log(MaxStockPrice);
+        console.log('------전송데이터 확인용------')
+        console.log(`Max주식가격 : ${MaxStockPrice}`);
+        console.log(`장바구니 주식코드 : ${stklist}`);
+        console.log(`카카오ID : ${kakaoid}`);
+        console.log(`잔고: ${quantity}`);
+        console.log(`전략: ${strategy}`);
+
+
+        console.log(
+            JSON.stringify({
+                'kakaoid' : kakaoid,
+                'strategy' : strategy,
+                'stklist' : stklist,
+                'quantity' : quantity
+            })
+        )
+
         if(quantity > balance * 0.85){
             setAlertmessage('잔고의 85% 이하로 입력하세요');
             setAlertheader('error!')
             setAlertModal(true);
             return
-        }
-        else if(quantity < MaxStockPrice * 100){
+        }else if(quantity < MaxStockPrice * 100){
             setAlertmessage(`${MaxStockPrice * 100}원 이상 입력하세요`);
             setAlertheader('error!')
             setAlertModal(true);
             return
-        } else{
+        }else{
             PopolFetch();
         }
     }
 
     async function PopolFetch(){
+        
 
-        const done = await fetch('https://asdf-be016-default-rtdb.firebaseio.com/.json',{
+        const done = await fetch('http://54.219.85.46:8000/submituserInfo',{
             method: 'POST',
-            body: JSON.stringify({
+            headers:{
+                'Content-type' : 'application.json',
                 'kakaoid' : kakaoid,
                 'strategy' : strategy,
-                'stklist' : stklist,
+                'stklist' : stklist.toString(),
                 'quantity' : quantity
-            }),
-            headers:{
-                'Content-type' : 'application.json'
             }
-        }).catch(err =>{
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err =>{
             console.log('포트폴리오 서버 제출 실패');
             console.log('-----에러내용-----');
             console.log(err);
+            return;
         });
 
         setAlertmessage('투자에 성공했습니다');

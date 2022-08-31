@@ -72,7 +72,6 @@ function SearchLayout({gotoChart}){
                 setTostr(data.favlist.split(","));
                 console.log('즐겨찾기 불러오기 성공');
                 setafterFirstFetch(true);
-                setTemp(true);
             }).catch(err =>{
                 console.log('즐겨찾기 불러오기 실패. setUserFavList 도 작동불가');
                 console.log('-----에러내용-----');

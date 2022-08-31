@@ -113,7 +113,6 @@ function CartPopol({setSelectedPopol, setStklist, setPopolModal, setErrorModal, 
             .then( data => {
                 setTostr(data.favlist.split(","));
                 setafterFirstFetch(true);
-                setTemp(true);
                 console.log('즐겨찾기 불러오기 성공');
             }).catch(err =>{
                 console.log('즐겨찾기 불러오기 실패');

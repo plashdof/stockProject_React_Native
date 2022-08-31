@@ -99,7 +99,7 @@ function SelectPopol({setSelectedPopol, setStrategy, setErrorModal, setErrormess
             setErrorModal(true);
             return;
         }
-        setStrategy(popolList[clickedbtn].name);
+        setStrategy(popolList[clickedbtn].filename);
         setSelectedPopol(true);
     }
 
