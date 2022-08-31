@@ -9,7 +9,7 @@ function Chartpage({setLogin, route}) {
   // 근데 Searchpage 클릭이 아닌 그냥 BottomTab으로 최초 Chartpage 이동하게되면, 오류가납니다!
 
   useEffect(() => {
-    // console.log(route.params.name);
+    console.log(route.params.name);
   }, []);
 
   return (

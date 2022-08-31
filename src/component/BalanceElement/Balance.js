@@ -5,17 +5,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import {DataTable} from 'react-native-paper';
 
 function Balance() {
-  const [dataFetch1, setDataFetch1] = useState(false);
-  const [dataFetch2, setDataFetch2] = useState(false);
+  const [dataFetch, setDataFetch] = useState(false);
   const [totalAssets, setTotalAssets] = useState('');
   const [manageAssets, setManageAssets] = useState('');
   const [rateOfReturn, setRateOfReturn] = useState([]);
   const [curAccount, setCurAccount] = useState([]);
-  const headerData = ['종목', '현재가', '총단가', '평단', '수량', '수익률'];
+  const headerData = ['종목', '현재가', '평단', '수량', '수익률'];
   let [uuid, Setuuid] = useState(-1);
   AsyncStorage.getItem('uuid', (err, result) => {
     Setuuid(result);
-    setDataFetch1(true);
+    setDataFetch(true);
   });
   useEffect(() => {
     fetch(`http://haniumproject.com:8000/getUserAccount`, {
@@ -35,12 +34,13 @@ function Balance() {
         );
         setRateOfReturn(parseFloat(data.assticdcrt) * 100);
         setCurAccount(data.curaccount);
-        setDataFetch2(true);
+        console.log(data);
       });
-  }, [dataFetch1]);
+  }, [dataFetch]);
+
   return (
     <>
-      {dataFetch2 && (
+      {totalAssets && manageAssets && rateOfReturn && curAccount && (
         <>
           <DataTable style={styles.container}>
             <View
@@ -88,11 +88,11 @@ function Balance() {
                     <DataTable.Cell>
                       {item.prpr.toLocaleString('ko-KR')}
                     </DataTable.Cell>
-                    <DataTable.Cell>
+                    {/* <DataTable.Cell>
                       {item.evlu_amt.toLocaleString('ko-KR')}
-                    </DataTable.Cell>
+                    </DataTable.Cell> */}
                     <DataTable.Cell>
-                      {item.pchs_avg_pric.toLocaleString('ko-KR')}
+                      {Math.round(item.pchs_avg_pric).toLocaleString('ko-KR')}
                     </DataTable.Cell>
                     <DataTable.Cell>{item.hldg_qty}</DataTable.Cell>
                     <DataTable.Cell>
