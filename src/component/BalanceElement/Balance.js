@@ -5,7 +5,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import {DataTable} from 'react-native-paper';
 
 function Balance() {
-  const [loading, setLoading] = useState(true);
+  const [dataFetch1, setDataFetch1] = useState(false);
+  const [dataFetch2, setDataFetch2] = useState(false);
   const [totalAssets, setTotalAssets] = useState('');
   const [manageAssets, setManageAssets] = useState('');
   const [rateOfReturn, setRateOfReturn] = useState([]);
@@ -14,6 +15,7 @@ function Balance() {
   let [uuid, Setuuid] = useState(-1);
   AsyncStorage.getItem('uuid', (err, result) => {
     Setuuid(result);
+    setDataFetch1(true);
   });
   useEffect(() => {
     fetch(`http://haniumproject.com:8000/getUserAccount`, {
@@ -26,15 +28,19 @@ function Balance() {
       .then(response => response.json())
       .then(data => {
         setTotalAssets(data.total);
-        setManageAssets(data.eval + ' / ' + data.sumofprch);
+        setManageAssets(
+          data.eval.toLocaleString('ko-KR') +
+            ' / ' +
+            data.sumofprch.toLocaleString('ko-KR'),
+        );
         setRateOfReturn(parseFloat(data.assticdcrt) * 100);
         setCurAccount(data.curaccount);
-        setLoading(false);
+        setDataFetch2(true);
       });
-  });
+  }, [dataFetch1]);
   return (
     <>
-      {loading ? (
+      {dataFetch2 && (
         <>
           <DataTable style={styles.container}>
             <View
@@ -44,7 +50,9 @@ function Balance() {
               }}></View>
             <DataTable.Row>
               <DataTable.Cell>총자산(원)</DataTable.Cell>
-              <DataTable.Cell>{totalAssets}</DataTable.Cell>
+              <DataTable.Cell>
+                {totalAssets.toLocaleString('ko-KR')}
+              </DataTable.Cell>
             </DataTable.Row>
 
             <DataTable.Row>
@@ -77,9 +85,15 @@ function Balance() {
                 return (
                   <DataTable.Row key={item.prdt_name}>
                     <DataTable.Cell>{item.prdt_name}</DataTable.Cell>
-                    <DataTable.Cell>{item.prpr}</DataTable.Cell>
-                    <DataTable.Cell>{item.evlu_amt}</DataTable.Cell>
-                    <DataTable.Cell>{item.pchs_avg_pric}</DataTable.Cell>
+                    <DataTable.Cell>
+                      {item.prpr.toLocaleString('ko-KR')}
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      {item.evlu_amt.toLocaleString('ko-KR')}
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      {item.pchs_avg_pric.toLocaleString('ko-KR')}
+                    </DataTable.Cell>
                     <DataTable.Cell>{item.hldg_qty}</DataTable.Cell>
                     <DataTable.Cell>
                       {item.evlu_pfls_rt < 0 ? (
@@ -93,8 +107,6 @@ function Balance() {
               })}
           </DataTable>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

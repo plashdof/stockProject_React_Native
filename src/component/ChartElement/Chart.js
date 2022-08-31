@@ -68,7 +68,7 @@ const ChartHighLowContainer = styled.View`
   margin: 10px 10px 10px 10px;
 `;
 
-function Chart(props) {
+function Chart() {
   const [chartType, setChartType] = useState('day');
   const [chartDataObj1, setchartDataObj1] = useState(null);
   const [tostr, settostr] = useState([]); //즐겨찾기 목록
@@ -83,8 +83,6 @@ function Chart(props) {
   });
   let [rising, setRising] = useState(true);
   const [selectedStock, setSelectedStock] = useState('삼성전자'); //선택된 종목
-
-  //const selectedStock = props.props;
   const stockRef = useRef(); //3초마다 데이터 가져오기위함. 현재 선택된 종목ref
   let [uuid, Setuuid] = useState(-1);
 
