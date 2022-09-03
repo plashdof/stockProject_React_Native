@@ -107,7 +107,7 @@ function PopolModal({setPopolModal, stklist, strategy, navigation}){
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then( response => response.json())

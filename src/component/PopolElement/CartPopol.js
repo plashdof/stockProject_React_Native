@@ -106,7 +106,7 @@ function CartPopol({setSelectedPopol, setStklist, setPopolModal, setErrorModal, 
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then( response => response.json())
@@ -166,7 +166,7 @@ function CartPopol({setSelectedPopol, setStklist, setPopolModal, setErrorModal, 
                 }),
                 headers:{
                     'Content-Type' : 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then(response => response.json())

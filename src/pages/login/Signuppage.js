@@ -128,7 +128,8 @@ function Signuppage({setLogin}){
             }),
             headers:{
                 'Content-Type': 'application/json',
-                'uuid' : uuid
+                'uuid' : uuid,
+                'Authorization' : 'Bearer uuid'
             }
         })
 
@@ -139,7 +140,8 @@ function Signuppage({setLogin}){
             }),
             headers:{
                 'Content-Type': 'application/json',
-                'uuid' : uuid
+                'uuid' : uuid,
+                'Authorization' : 'Bearer uuid'
             }
         })
 
@@ -150,7 +152,8 @@ function Signuppage({setLogin}){
             }),
             headers:{
                 'Content-Type': 'https://stock-a95d6-default-rtdb.firebaseio.com/.json',
-                'uuid' : uuid
+                'uuid' : uuid,
+                'Authorization' : 'Bearer uuid'
             }
         })
 
@@ -161,7 +164,8 @@ function Signuppage({setLogin}){
             }),
             headers:{
                 'Content-Type': 'application/json',
-                'uuid' : uuid
+                'uuid' : uuid,
+                'Authorization' : 'Bearer uuid'
             }
         })
 
@@ -172,7 +176,8 @@ function Signuppage({setLogin}){
             }),
             headers:{
                 'Content-Type': 'application/json',
-                'uuid' : uuid
+                'uuid' : uuid,
+                'Authorization' : 'Bearer uuid'
             }
         }).then(response => response.json())
         .then((data)=>{

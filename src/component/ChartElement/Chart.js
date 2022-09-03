@@ -85,9 +85,9 @@ function Chart(props) {
   const [selectedStock, setSelectedStock] = useState(props.props); //선택된 종목
   const stockRef = useRef(); //3초마다 데이터 가져오기위함. 현재 선택된 종목ref
   let [uuid, Setuuid] = useState(-1);
-  AsyncStorage.getItem('uuid', (err, result) => {
-    Setuuid(result);
-  });
+
+  
+  
   function handleChartType(e) {
     setChartType(e);
   }
@@ -97,23 +97,35 @@ function Chart(props) {
     month: <MonthChart props={chartDataObj1} />,
   };
 
+  useEffect(()=>{
+    AsyncStorage.getItem('uuid', (err, result) => {
+      Setuuid(result);
+    });
+  },[])
+
   /* 즐겨찾기 */
   //유저의 즐겨찾기 목록 가져오기
   useEffect(() => {
-    fetch(`http://haniumproject.com:8000/getUserAccount`, {
+    if(uuid !== -1){
+      fetch(`http://haniumproject.com:8000/getUserAccount`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        uuid: uuid,
+        'Authorization' : `Bearer ${uuid}`
       },
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        settostr(data.favlist.split(','));
-        setafterFirstFetch(true);
-      });
-  }, []);
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      settostr(data.favlist.split(','));
+      setafterFirstFetch(true);
+    }).catch((err)=>{
+      console.log(err);
+    });
+
+    }
+    
+  }, [uuid]);
 
   //tostr 서버에 전송?
   useEffect(() => {
@@ -125,9 +137,12 @@ function Chart(props) {
         }),
         headers: {
           'Content-Type': 'application/json',
-          uuid: uuid,
+          'Authorization' : `Bearer ${uuid}`
         },
-      }).then(response => response.json());
+      }).then(response => response.json())
+      .catch((err)=>{
+        console.log(err);
+      });
     }
   }, [tostr]);
 

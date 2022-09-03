@@ -63,7 +63,7 @@ function SearchLayout({gotoChart}){
                 method: 'POST',
                 headers:{
                     'Content-Type' : 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then( response => response.json())
@@ -124,7 +124,7 @@ function SearchLayout({gotoChart}){
                 }),
                 headers:{
                     'Content-Type' : 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then(response => response.json())

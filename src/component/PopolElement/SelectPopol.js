@@ -75,7 +75,7 @@ function SelectPopol({setSelectedPopol, setStrategy, setErrorModal, setErrormess
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
-                    'uuid' : uuid
+                    'Authorization' : `Bearer ${uuid}`
                 }
             })
             .then(response=> response.json())
