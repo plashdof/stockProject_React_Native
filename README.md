@@ -40,7 +40,9 @@
 </br></br>
 
 ## 프론트 설계
+
 </br>
+
 ### 관리
 
 - 페이지 관리
@@ -53,7 +55,9 @@
 - 데이터관리
     - 서버에서 받아오는 사용자 확인 데이터는 로그인 성공 시 AsyncStorage 에 저장하여, 모든 페이지에서 자유롭게 호출.
     - 앱을 종료하여도 로컬에 저장되지만 사용자가 로그아웃 버튼을 누르면, 로컬에서도 소멸하게 구현함.
+    
 </br>
+
 ### 화면구성
 
 → 홈 / 잔고확인 / 차트 / 검색 / 포트폴리오  5개의 화면으로 구성
@@ -83,7 +87,9 @@
 </br></br>
 
 ## 프로젝트 설계
+
 </br>
+
 ### 전체
 
 <img src ="https://user-images.githubusercontent.com/86242930/230784027-035fbc60-09db-443f-9221-616f8a86ac75.png" width="650" height="350"/>
@@ -91,11 +97,15 @@
 - 증권사와 연동을 통해 실시간 포트폴리오 정보 확인
 - 클라우드 서버를 활용해 자동으로 주가정보 수집, 인공지능 학습 가능
 - 자동화된 자산 리밸런싱 기능 사용 가능
+- 
 </br>
+
 ### 데이터 서버
 
 <img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="650" height="350"/>
+
 </br>
+
 ### 학습 서버
 
 <img src ="https://user-images.githubusercontent.com/86242930/230784031-911d1692-8ff3-413c-a910-7e88c1a7e79f.png" width="650" height="350"/>
@@ -127,6 +137,7 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 </p>
 
+</br></br>
 
 **→ 차트 페이지**
 
@@ -139,10 +150,13 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 </p>
 
+</br></br>
 
 **→ 잔고확인 페이지**
 
 <img src ="https://user-images.githubusercontent.com/86242930/230784249-b26492bb-a145-467b-a81a-4ebe7aedcdcf.jpg" width="250" height="450"/>
+
+</br></br>
 
 **→ 검색 페이지**
 
@@ -155,6 +169,7 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 </p>
 
+</br></br>
 
 **→ 포트폴리오 페이지**
 
