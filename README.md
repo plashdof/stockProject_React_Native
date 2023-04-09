@@ -4,7 +4,7 @@
 
 ## 2022 한이음 ICT 공모전 (주식 퀀트 트레이딩 앱)
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="250" height="400"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="250" height="450"/>
 
 </br></br>
 
@@ -40,7 +40,7 @@
 </br></br>
 
 ## 프론트 설계
-
+</br>
 ### 관리
 
 - 페이지 관리
@@ -53,7 +53,7 @@
 - 데이터관리
     - 서버에서 받아오는 사용자 확인 데이터는 로그인 성공 시 AsyncStorage 에 저장하여, 모든 페이지에서 자유롭게 호출.
     - 앱을 종료하여도 로컬에 저장되지만 사용자가 로그아웃 버튼을 누르면, 로컬에서도 소멸하게 구현함.
-
+</br>
 ### 화면구성
 
 → 홈 / 잔고확인 / 차트 / 검색 / 포트폴리오  5개의 화면으로 구성
@@ -83,22 +83,22 @@
 </br></br>
 
 ## 프로젝트 설계
-
+</br>
 ### 전체
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784027-035fbc60-09db-443f-9221-616f8a86ac75.png" width="400" height="200"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784027-035fbc60-09db-443f-9221-616f8a86ac75.png" width="650" height="350"/>
 - Web App을 통해 여러 종목 정보, 투자 전략 정보를 GUI로 확인 가능
 - 증권사와 연동을 통해 실시간 포트폴리오 정보 확인
 - 클라우드 서버를 활용해 자동으로 주가정보 수집, 인공지능 학습 가능
 - 자동화된 자산 리밸런싱 기능 사용 가능
-
+</br>
 ### 데이터 서버
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="600" height="300"/>
-
+<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="650" height="350"/>
+</br>
 ### 학습 서버
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784031-911d1692-8ff3-413c-a910-7e88c1a7e79f.png" width="400" height="200"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784031-911d1692-8ff3-413c-a910-7e88c1a7e79f.png" width="650" height="350"/>
 
 
 </br></br>
@@ -121,9 +121,9 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784052-28ac7b8d-6136-4a03-a5ce-18db6972aad6.jpg" width="200" height="400"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784052-28ac7b8d-6136-4a03-a5ce-18db6972aad6.jpg" width="250" height="450"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784055-799041b0-7176-42a4-94d7-caaf7d23f087.jpg" width="200" height="400"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784055-799041b0-7176-42a4-94d7-caaf7d23f087.jpg" width="250" height="450"/>
 
 </p>
 
@@ -133,25 +133,25 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784231-6d4bd25d-2b0a-4fbb-8ccf-bff9d0535151.jpg" width="200" height="400"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784231-6d4bd25d-2b0a-4fbb-8ccf-bff9d0535151.jpg" width="250" height="450"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784237-c56e38a9-70f6-461c-a027-6ef9b74f1d3f.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784237-c56e38a9-70f6-461c-a027-6ef9b74f1d3f.jpg" width="250" height="450"/>
 
 </p>
 
 
 **→ 잔고확인 페이지**
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784249-b26492bb-a145-467b-a81a-4ebe7aedcdcf.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784249-b26492bb-a145-467b-a81a-4ebe7aedcdcf.jpg" width="250" height="450"/>
 
 **→ 검색 페이지**
 
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784270-fce6054a-1302-4ea3-b2ac-da032d7b7175.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784270-fce6054a-1302-4ea3-b2ac-da032d7b7175.jpg" width="250" height="450"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784273-268c67b0-fe37-4453-b9e4-11abc2529745.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784273-268c67b0-fe37-4453-b9e4-11abc2529745.jpg" width="250" height="450"/>
 
 </p>
 
@@ -161,10 +161,10 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784302-79a6781f-57a0-4a49-bdac-dac206162ace.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784302-79a6781f-57a0-4a49-bdac-dac206162ace.jpg" width="250" height="450"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784306-99610899-a6f5-476f-bb5f-889ad41cf9b9.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784306-99610899-a6f5-476f-bb5f-889ad41cf9b9.jpg" width="250" height="450"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784307-c019dab2-fb0d-422c-bab7-c4a25b2ba7b0.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784307-c019dab2-fb0d-422c-bab7-c4a25b2ba7b0.jpg" width="250" height="450"/>
 
 </p>
