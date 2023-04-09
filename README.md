@@ -4,7 +4,7 @@
 
 ## 2022 한이음 ICT 공모전 (주식 퀀트 트레이딩 앱)
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="200" height="400"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="250" height="400"/>
 
 </br></br>
 
@@ -94,7 +94,7 @@
 
 ### 데이터 서버
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="400" height="200"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="600" height="300"/>
 
 ### 학습 서버
 
