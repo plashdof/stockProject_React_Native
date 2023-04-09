@@ -1,8 +1,12 @@
 # 한이음 주식퀀트 앱
 
+</br>
+
 ## 2022 한이음 ICT 공모전 (주식 퀀트 트레이딩 앱)
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784024-b6cea0a5-ec12-478b-a43b-97a76d07ead5.jpg" width="200" height="400"/>
+
+</br></br>
 
 ## 개요
 
@@ -10,6 +14,8 @@
 - 팀구성 : 프론트엔드 2  / 서버 2 / AI 1
 - 맡은역할 :  웹/앱 개발 React.js / React Native 사용
 - 개발기간 : 2022.04 ~ 2022.10 (약 6개월)
+
+</br></br>
 
 ## 아이디어
 
@@ -30,6 +36,8 @@
 - 사용자의 주관 개입을 막아 최대한 안전한 투자 전략 제공
 - 시장 상황이 바뀌는 경우 투자판단에 대한 책임 문제는 여전히 존재
 - 따라서 정교한 알고리즘 설계가 필요함
+
+</br></br>
 
 ## 프론트 설계
 
@@ -72,11 +80,13 @@
 - **잔고확인 페이지**
     - 현재 운용중인 포트폴리오 전략에 따라, 자산 현황 보여줌
 
+</br></br>
+
 ## 프로젝트 설계
 
 ### 전체
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784027-035fbc60-09db-443f-9221-616f8a86ac75.png" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784027-035fbc60-09db-443f-9221-616f8a86ac75.png" width="400" height="200"/>
 - Web App을 통해 여러 종목 정보, 투자 전략 정보를 GUI로 확인 가능
 - 증권사와 연동을 통해 실시간 포트폴리오 정보 확인
 - 클라우드 서버를 활용해 자동으로 주가정보 수집, 인공지능 학습 가능
@@ -84,11 +94,14 @@
 
 ### 데이터 서버
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784029-bf4e439b-313e-4206-a615-c3249d03bdd4.png" width="400" height="200"/>
 
 ### 학습 서버
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784031-911d1692-8ff3-413c-a910-7e88c1a7e79f.png" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784031-911d1692-8ff3-413c-a910-7e88c1a7e79f.png" width="400" height="200"/>
+
+
+</br></br>
 
 ## 구동영상
 
@@ -101,14 +114,16 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 ---
 
+</br></br>
+
 **→ 로그인 / 회원가입 페이지**
 
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784052-28ac7b8d-6136-4a03-a5ce-18db6972aad6.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784052-28ac7b8d-6136-4a03-a5ce-18db6972aad6.jpg" width="200" height="400"/>
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784055-799041b0-7176-42a4-94d7-caaf7d23f087.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784055-799041b0-7176-42a4-94d7-caaf7d23f087.jpg" width="200" height="400"/>
 
 </p>
 
@@ -118,7 +133,7 @@ https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-
 
 <p align="left">
 
-<img src ="https://user-images.githubusercontent.com/86242930/230784231-6d4bd25d-2b0a-4fbb-8ccf-bff9d0535151.jpg" width="150" height="300"/>
+<img src ="https://user-images.githubusercontent.com/86242930/230784231-6d4bd25d-2b0a-4fbb-8ccf-bff9d0535151.jpg" width="200" height="400"/>
 
 <img src ="https://user-images.githubusercontent.com/86242930/230784237-c56e38a9-70f6-461c-a027-6ef9b74f1d3f.jpg" width="150" height="300"/>
 
