@@ -115,14 +115,15 @@
 
 ## 구동영상
 
----
 
 https://user-images.githubusercontent.com/86242930/230784037-fc913134-d9e7-429d-8503-e077abbde4cf.mp4
 
 https://user-images.githubusercontent.com/86242930/230784042-c29b61a6-18ae-422e-b6ab-cea6e3fe5f00.mp4
+
+</br></br>
+
 ## 화면구성
 
----
 
 </br></br>
 
